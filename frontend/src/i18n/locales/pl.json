@@ -1,0 +1,72 @@
+{
+    "nav": {
+        "home": "Strona główna",
+        "inventory": "Samochody",
+        "about": "O nas",
+        "contact": "Kontakt"
+    },
+    "auth": {
+        "login": "Zaloguj się",
+        "logout": "Wyloguj",
+        "profile": "Profil",
+        "register": {
+            "headline": "Dołącz do naszej społeczności",
+            "subhead": "Utwórz konto, aby odblokować dodatkowe funkcje i znaleźć wymarzony samochód",
+            "benefits": {
+                "exclusive_title": "Ekskluzywny dostęp",
+                "exclusive_sub": "Bądź pierwszy, który dowie się o nowych ofertach",
+                "favorites_title": "Zapisuj ulubione",
+                "favorites_sub": "Stwórz własną kolekcję",
+                "offers_title": "Oferty specjalne",
+                "offers_sub": "Otrzymuj powiadomienia o wyjątkowych promocjach"
+            },
+            "form": {
+                "title": "Utwórz konto",
+                "sub": "Wypełnij dane, aby rozpocząć",
+                "fullName": "Imię i nazwisko",
+                "email": "E-mail",
+                "phone": "Numer telefonu",
+                "password": "Hasło",
+                "confirmPassword": "Potwierdź hasło",
+                "creating": "Tworzenie...",
+                "createAccount": "Utwórz konto",
+                "already": "Masz już konto?",
+                "signIn": "Zaloguj się",
+                "passwordsNoMatch": "Hasła nie są takie same",
+                "failed": "Rejestracja nie powiodła się"
+            }
+        },
+        "loginPage": {
+            "title": "Witaj ponownie",
+            "sub": "Zaloguj się, aby kontynuować",
+            "email": "E-mail",
+            "password": "Hasło",
+            "loggingIn": "Logowanie...",
+            "login": "Zaloguj się",
+            "noAccount": "Nie masz konta?",
+            "create": "Utwórz",
+            "failed": "Logowanie nie powiodło się"
+        }
+    },
+    "home": {
+        "featuredVehicle": "Polecany samochód",
+        "viewDetails": "Zobacz szczegóły",
+        "viewAllVehicles": "Zobacz wszystkie samochody",
+        "whyTitle": "Dlaczego MK Automobile?",
+        "whySub": "Zapewniamy najlepsze doświadczenie zakupu samochodu – jakość aut i świetna obsługa.",
+        "qualityTitle": "Gwarantowana jakość",
+        "qualitySub": "Każdy samochód przechodzi dokładną kontrolę przed publikacją.",
+        "deliveryTitle": "Dostawa dostępna",
+        "deliverySub": "Dostarczymy samochód prosto pod Twoje drzwi na terenie Niemiec.",
+        "pricesTitle": "Najlepsze ceny",
+        "pricesSub": "Konkurencyjne ceny, przejrzyste koszty i brak ukrytych opłat.",
+        "serviceTitle": "Obsługa 5-gwiazdkowa",
+        "serviceSub": "Wysoko oceniana przez klientów na mobile.de za wyjątkową obsługę.",
+        "latestTitle": "Najnowsze oferty",
+        "latestSub": "Świeże auta w naszym asortymencie",
+        "readyTitle": "Gotowy znaleźć idealny samochód?",
+        "readySub": "Przeglądaj nasz szeroki wybór aut wysokiej jakości. Jazda próbna dostępna dla wszystkich.",
+        "browseInventory": "Przeglądaj ofertę",
+        "contactUs": "Skontaktuj się"
+    }
+}

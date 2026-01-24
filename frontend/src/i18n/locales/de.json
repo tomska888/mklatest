@@ -1,0 +1,72 @@
+{
+    "nav": {
+        "home": "Startseite",
+        "inventory": "Fahrzeuge",
+        "about": "Über uns",
+        "contact": "Kontakt"
+    },
+    "auth": {
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "profile": "Profil",
+        "register": {
+            "headline": "Werde Teil unserer Community",
+            "subhead": "Erstelle ein Konto, um exklusive Funktionen freizuschalten und dein Traumauto zu finden",
+            "benefits": {
+                "exclusive_title": "Exklusiver Zugriff",
+                "exclusive_sub": "Erfahre als Erste*r von neuen Angeboten",
+                "favorites_title": "Favoriten speichern",
+                "favorites_sub": "Erstelle deine persönliche Sammlung",
+                "offers_title": "Sonderangebote",
+                "offers_sub": "Erhalte Benachrichtigungen über exklusive Deals"
+            },
+            "form": {
+                "title": "Konto erstellen",
+                "sub": "Gib deine Daten ein, um zu starten",
+                "fullName": "Vollständiger Name",
+                "email": "E-Mail",
+                "phone": "Telefonnummer",
+                "password": "Passwort",
+                "confirmPassword": "Passwort bestätigen",
+                "creating": "Wird erstellt...",
+                "createAccount": "Konto erstellen",
+                "already": "Du hast schon ein Konto?",
+                "signIn": "Anmelden",
+                "passwordsNoMatch": "Passwörter stimmen nicht überein",
+                "failed": "Registrierung fehlgeschlagen"
+            }
+        },
+        "loginPage": {
+            "title": "Willkommen zurück",
+            "sub": "Melde dich an, um fortzufahren",
+            "email": "E-Mail",
+            "password": "Passwort",
+            "loggingIn": "Anmeldung läuft...",
+            "login": "Anmelden",
+            "noAccount": "Noch kein Konto?",
+            "create": "Jetzt erstellen",
+            "failed": "Anmeldung fehlgeschlagen"
+        }
+    },
+    "home": {
+        "featuredVehicle": "Top-Fahrzeug",
+        "viewDetails": "Details ansehen",
+        "viewAllVehicles": "Alle Fahrzeuge ansehen",
+        "whyTitle": "Warum MK Automobile?",
+        "whySub": "Wir bieten das beste Kauferlebnis mit geprüften Fahrzeugen und erstklassigem Service.",
+        "qualityTitle": "Qualität garantiert",
+        "qualitySub": "Jedes Fahrzeug wird vor der Veröffentlichung gründlich geprüft.",
+        "deliveryTitle": "Lieferung möglich",
+        "deliverySub": "Wir liefern dein Auto direkt bis vor die Haustür – überall in Deutschland.",
+        "pricesTitle": "Beste Preise",
+        "pricesSub": "Faire Preise, transparente Kosten und keine versteckten Gebühren.",
+        "serviceTitle": "5‑Sterne‑Service",
+        "serviceSub": "Von unseren Kunden auf mobile.de für hervorragenden Service bewertet.",
+        "latestTitle": "Neu eingetroffen",
+        "latestSub": "Frische Fahrzeuge in unserem Bestand",
+        "readyTitle": "Bereit, dein perfektes Auto zu finden?",
+        "readySub": "Stöbere in unserem umfangreichen Bestand an Premium-Fahrzeugen. Probefahrt für alle Autos möglich.",
+        "browseInventory": "Bestand ansehen",
+        "contactUs": "Kontakt aufnehmen"
+    }
+}

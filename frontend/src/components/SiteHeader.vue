@@ -1,0 +1,198 @@
+<template>
+  <header :class="['site-header', { scrolled }]">
+    <div class="container bar">
+      <!-- Brand -->
+      <router-link class="brand" to="/">
+        <span class="cloud" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+            <path d="M6 19a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.2A4.5 4.5 0 1 1 18 19H6z" />
+          </svg>
+        </span>
+        <span class="brand-name">MK Automobile</span>
+      </router-link>
+
+      <!-- Nav -->
+      <button class="burger" @click="open = !open" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <nav :class="['nav', { open }]">
+        <router-link to="/">{{ $t('nav.home') }}</router-link>
+        <router-link to="/cars">{{ $t('nav.inventory') }}</router-link>
+        <router-link to="/about">{{ $t('nav.about') }}</router-link>
+        <router-link to="/contact">{{ $t('nav.contact') }}</router-link>
+      </nav>
+
+      <!-- Actions -->
+      <div class="actions">
+        <div class="lang" ref="langEl">
+          <button class="icon-btn" :title="'Language'" aria-label="Language" @click.stop="langOpen = !langOpen">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M2.5 12h19"/><path d="M12 3c3 4 3 14 0 18"/></svg>
+          </button>
+          <div v-if="langOpen" class="menu">
+            <button class="menu-item" @click.stop="pickLocale('en')">English</button>
+            <button class="menu-item" @click.stop="pickLocale('de')">Deutsch</button>
+            <button class="menu-item" @click.stop="pickLocale('lt')">Lietuvių</button>
+            <button class="menu-item" @click.stop="pickLocale('pl')">Polski</button>
+            <button class="menu-item" @click.stop="pickLocale('ru')">Русский</button>
+          </div>
+        </div>
+
+        <button class="icon-btn" :title="theme.mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'" aria-label="Toggle theme" @click="theme.toggle()">
+          <template v-if="theme.mode === 'dark'">
+            <!-- Moon -->
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </template>
+          <template v-else>
+            <!-- Sun (fixed) -->
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </template>
+        </button>
+        <template v-if="auth.user">
+          <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="btn small" to="/admin">Admin</router-link>
+          <div class="profile" ref="profileEl" @click.stop="toggleProfile">
+            <Avatar :seed="auth.user.email || auth.user.name" :size="30" />
+            <span class="name">{{ auth.user.name }}</span>
+            <div v-if="profileOpen" class="menu">
+              <router-link class="menu-item" to="/profile" @click.stop="profileOpen=false">{{ $t('auth.profile') }}</router-link>
+              <button class="menu-item danger" @click.stop="logout">{{ $t('auth.logout') }}</button>
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <router-link class="btn small primary" to="/login">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>{{ $t('auth.login') }}</span>
+          </router-link>
+        </template>
+      </div>
+    </div>
+  </header>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/auth.js';
+import { useThemeStore } from '../stores/theme.js';
+import { useLocaleStore } from '../stores/locale.js';
+import Avatar from './Avatar.vue';
+
+const router = useRouter();
+const auth = useAuthStore();
+const theme = useThemeStore();
+const localeStore = useLocaleStore();
+
+const open = ref(false);
+const scrolled = ref(false);
+const profileOpen = ref(false);
+const profileEl = ref(null);
+
+const langOpen = ref(false);
+const langEl = ref(null);
+
+function handleScroll() {
+  scrolled.value = window.scrollY > 4;
+}
+
+function onDocClick(e) {
+  if (profileEl.value && !profileEl.value.contains(e.target)) profileOpen.value = false;
+  if (langEl.value && !langEl.value.contains(e.target)) langOpen.value = false;
+}
+
+function toggleProfile() {
+  profileOpen.value = !profileOpen.value;
+}
+
+function pickLocale(code) {
+  localeStore.set(code);
+  langOpen.value = false;
+}
+
+onMounted(() => {
+  handleScroll();
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  document.addEventListener('click', onDocClick, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+  document.removeEventListener('click', onDocClick);
+});
+
+function logout() {
+  auth.logout();
+  profileOpen.value = false;
+  router.push('/');
+}
+</script>
+
+<style scoped>
+.site-header {
+  background: rgba(255,255,255,.64);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(200%) blur(1px);
+  border-bottom:1px solid rgba(226,232,240,.55);
+  position:sticky; top:0; z-index:50;
+  transition: background .2s ease, box-shadow .2s ease, border-color .2s ease, backdrop-filter .2s ease;
+}
+.site-header.scrolled {
+  background: rgba(255,255,255,.86);
+  box-shadow: 0 8px 28px rgba(2,6,23,.10);
+  border-bottom-color: rgba(226,232,240,0);
+}
+
+.bar { display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap:1rem; padding:.6rem 1rem; }
+
+/* Brand */
+.brand { display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; color:#0f172a; font-weight:700; }
+.brand:hover .brand-name { color:#0b1b2b; }
+.cloud { color:#1d4ed8; background:#eff6ff; border:1px solid #e5e7eb; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; transition: transform .18s ease, box-shadow .18s ease; }
+.brand:hover .cloud { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(2,6,23,.06); }
+.brand-name { font-weight:700; transition:color .18s ease; }
+
+/* Nav */
+.nav { display:flex; justify-content:center; gap:.25rem; }
+.nav a { color:#0f172a; text-decoration:none; padding:.45rem .65rem; border-radius:.5rem; font-weight:500; position:relative; transition: color .18s ease, background-color .18s ease; }
+.nav a::after { content:''; position:absolute; left:.65rem; right:.65rem; bottom:6px; height:2px; background:#2563eb; transform:scaleX(0); transform-origin:left; transition: transform .18s ease; border-radius:2px; }
+.nav a:hover { color:#0b1b2b; background:#f8fafc; }
+.nav a:hover::after, .nav a.router-link-active::after { transform:scaleX(1); }
+.nav a.router-link-active { background:#f1f5f9; border:1px solid #e2e8f0; }
+
+/* Actions */
+.actions { display:flex; align-items:center; gap:.5rem; }
+.icon-btn { width:30px; height:30px; display:grid; place-items:center; border:1px solid #e5e7eb; border-radius:.5rem; background:#fff; color:#475569; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease; }
+.icon-btn:hover { transform: translateY(-1px); border-color:#cbd5e1; background:#f8fafc; box-shadow: 0 2px 6px rgba(2,6,23,.06); }
+.icon-btn:active { transform: translateY(0); box-shadow: inset 0 1px 3px rgba(2,6,23,.08); }
+
+.lang { position: relative; }
+.lang .menu { position:absolute; right:0; top:110%; background:#fff; border:1px solid #e5e7eb; border-radius:.5rem; box-shadow: 0 12px 24px rgba(2,6,23,.10); padding:.25rem; min-width:160px; z-index:60; }
+
+.btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease; }
+.btn.small.primary { background:#2563eb; color:#fff; }
+.btn.small.primary:hover { background:#1d4ed8; transform: translateY(-1px); }
+.btn.small.outline { background:#fff; color:#0f172a; border-color:#cbd5e1; }
+.btn.small.outline:hover { background:#f8fafc; }
+
+/* Profile */
+.profile { position: relative; display:flex; align-items:center; gap:.5rem; padding:.2rem .4rem; border-radius:.5rem; cursor:pointer; border:1px solid #e5e7eb; background:#fff; }
+.profile:hover { border-color:#cbd5e1; background:#f8fafc; }
+.profile .name { color:#0f172a; font-weight:500; white-space:nowrap; }
+.menu { position:absolute; right:0; top:110%; background:#fff; border:1px solid #e5e7eb; border-radius:.5rem; box-shadow: 0 12px 24px rgba(2,6,23,.10); padding:.25rem; min-width:140px; z-index:60; }
+.menu-item { display:block; width:100%; text-align:left; background:#fff; border:none; padding:.45rem .6rem; border-radius:.35rem; cursor:pointer; color:#0f172a; text-decoration:none; font-weight:500; font-size:14px; }
+.menu-item:hover { background:#f1f5f9; }
+.menu-item.danger { color:#dc2626; }
+.menu-item.danger:hover { background:#fef2f2; color:#b91c1c; }
+
+/* Burger + responsive */
+.burger { display:none; background:none; border:none; cursor:pointer; transition: transform .16s ease; }
+.burger:hover { transform: translateY(-1px); }
+.burger span { display:block; width:22px; height:2px; background:#0f172a; margin:4px 0; }
+
+@media (max-width: 900px) {
+  .bar { grid-template-columns: auto auto auto; }
+  .burger { display:block; }
+  .nav { display:none; position:absolute; left:0; right:0; top:58px; background:#fff; border-bottom:1px solid #e5e7eb; padding:.5rem; box-shadow: 0 8px 20px rgba(2,6,23,.06); }
+  .nav.open { display:flex; flex-wrap:wrap; justify-content:center; }
+}
+</style>

@@ -1,0 +1,72 @@
+{
+    "nav": {
+        "home": "Pagrindinis",
+        "inventory": "Automobiliai",
+        "about": "Apie mus",
+        "contact": "Kontaktai"
+    },
+    "auth": {
+        "login": "Prisijungti",
+        "logout": "Atsijungti",
+        "profile": "Profilis",
+        "register": {
+            "headline": "Prisijunkite prie mūsų bendruomenės",
+            "subhead": "Sukurkite paskyrą, kad gautumėte išskirtines funkcijas ir rastumėte svajonių automobilį",
+            "benefits": {
+                "exclusive_title": "Išskirtinė prieiga",
+                "exclusive_sub": "Pirmieji sužinokite apie naujus pasiūlymus",
+                "favorites_title": "Išsaugokite favoritus",
+                "favorites_sub": "Sukurkite asmeninę kolekciją",
+                "offers_title": "Specialūs pasiūlymai",
+                "offers_sub": "Gaukite pranešimus apie išskirtinius pasiūlymus"
+            },
+            "form": {
+                "title": "Sukurti paskyrą",
+                "sub": "Įveskite savo informaciją, kad pradėtumėte",
+                "fullName": "Vardas ir pavardė",
+                "email": "El. paštas",
+                "phone": "Telefono numeris",
+                "password": "Slaptažodis",
+                "confirmPassword": "Patvirtinkite slaptažodį",
+                "creating": "Kuriama...",
+                "createAccount": "Sukurti paskyrą",
+                "already": "Jau turite paskyrą?",
+                "signIn": "Prisijunkite",
+                "passwordsNoMatch": "Slaptažodžiai nesutampa",
+                "failed": "Registracija nepavyko"
+            }
+        },
+        "loginPage": {
+            "title": "Sveiki sugrįžę",
+            "sub": "Prisijunkite, kad tęstumėte",
+            "email": "El. paštas",
+            "password": "Slaptažodis",
+            "loggingIn": "Jungiama...",
+            "login": "Prisijungti",
+            "noAccount": "Neturite paskyros?",
+            "create": "Sukurti",
+            "failed": "Prisijungti nepavyko"
+        }
+    },
+    "home": {
+        "featuredVehicle": "Rekomenduojamas automobilis",
+        "viewDetails": "Peržiūrėti detales",
+        "viewAllVehicles": "Peržiūrėti visus automobilius",
+        "whyTitle": "Kodėl rinktis MK Automobile?",
+        "whySub": "Siekiame suteikti geriausią automobilio pirkimo patirtį su kokybiškais automobiliais ir išskirtiniu aptarnavimu.",
+        "qualityTitle": "Kokybė garantuota",
+        "qualitySub": "Kiekvienas automobilis prieš paskelbiant kruopščiai patikrinamas.",
+        "deliveryTitle": "Galimas pristatymas",
+        "deliverySub": "Pristatome automobilį tiesiai iki jūsų durų visoje Vokietijoje.",
+        "pricesTitle": "Geriausios kainos",
+        "pricesSub": "Konkurencingos kainos, skaidrios išlaidos ir jokių paslėptų mokesčių.",
+        "serviceTitle": "5 žvaigždučių aptarnavimas",
+        "serviceSub": "Mūsų klientai mobile.de aukštai įvertino už išskirtinį aptarnavimą.",
+        "latestTitle": "Naujausi pasiūlymai",
+        "latestSub": "Naujausi papildymai mūsų asortimente",
+        "readyTitle": "Pasiruošę rasti savo tobulą automobilį?",
+        "readySub": "Peržiūrėkite mūsų platų aukštos kokybės automobilių asortimentą. Galima bandomoji važiavimo patirtis.",
+        "browseInventory": "Peržiūrėti automobilius",
+        "contactUs": "Susisiekite"
+    }
+}

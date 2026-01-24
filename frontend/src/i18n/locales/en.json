@@ -1,0 +1,72 @@
+{
+    "nav": {
+        "home": "Home",
+        "inventory": "Inventory",
+        "about": "About Us",
+        "contact": "Contact"
+    },
+    "auth": {
+        "login": "Log In",
+        "logout": "Logout",
+        "profile": "Profile",
+        "register": {
+            "headline": "Join Our Community",
+            "subhead": "Create an account to unlock exclusive features and find your dream car",
+            "benefits": {
+                "exclusive_title": "Exclusive Access",
+                "exclusive_sub": "Be the first to know about new arrivals",
+                "favorites_title": "Save Favorites",
+                "favorites_sub": "Create your personalized collection",
+                "offers_title": "Special Offers",
+                "offers_sub": "Get notified about exclusive deals"
+            },
+            "form": {
+                "title": "Create Account",
+                "sub": "Fill in your information to get started",
+                "fullName": "Full Name",
+                "email": "Email",
+                "phone": "Phone Number",
+                "password": "Password",
+                "confirmPassword": "Confirm Password",
+                "creating": "Creating...",
+                "createAccount": "Create Account",
+                "already": "Already have an account?",
+                "signIn": "Sign in",
+                "passwordsNoMatch": "Passwords do not match",
+                "failed": "Registration failed"
+            }
+        },
+        "loginPage": {
+            "title": "Welcome Back",
+            "sub": "Log in to continue",
+            "email": "Email",
+            "password": "Password",
+            "loggingIn": "Logging in...",
+            "login": "Log In",
+            "noAccount": "Don't have an account?",
+            "create": "Create one",
+            "failed": "Login failed"
+        }
+    },
+    "home": {
+        "featuredVehicle": "Featured Vehicle",
+        "viewDetails": "View Details",
+        "viewAllVehicles": "View All Vehicles",
+        "whyTitle": "Why Choose MK Automobile?",
+        "whySub": "We're committed to providing the best car buying experience with quality vehicles and exceptional service.",
+        "qualityTitle": "Quality Guaranteed",
+        "qualitySub": "Every car undergoes a rigorous inspection before being listed.",
+        "deliveryTitle": "Delivery Available",
+        "deliverySub": "We deliver your car directly to your doorstep anywhere in Germany.",
+        "pricesTitle": "Best Prices",
+        "pricesSub": "Competitive pricing with transparent costs and no hidden fees.",
+        "serviceTitle": "5-Star Service",
+        "serviceSub": "Rated highly by our customers on mobile.de for exceptional service.",
+        "latestTitle": "Latest Arrivals",
+        "latestSub": "Fresh additions to our inventory",
+        "readyTitle": "Ready to Find Your Perfect Car?",
+        "readySub": "Browse our extensive inventory of premium quality vehicles. Test drive available for all cars.",
+        "browseInventory": "Browse Inventory",
+        "contactUs": "Contact Us"
+    }
+}

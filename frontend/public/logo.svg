@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="40" viewBox="0 0 180 40" role="img" aria-label="AM Automobile">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#2dd4bf"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="180" height="40" fill="none"/>
+  <g transform="translate(4,7)">
+    <rect x="0" y="0" width="26" height="26" rx="6" fill="#0b1b2b"/>
+    <path d="M6 19 L10 7 L14 19 L12.8 19 L12 17 H8 L7.2 19 Z M15 19 L15 7 L17 7 L21 13 L21 7 L22.8 7 L22.8 19 L21 19 L17 13 L17 19 Z"
+          fill="url(#g)" transform="translate(2,0)"/>
+    <text x="36" y="20" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto" font-size="18" font-weight="700" fill="#0b1b2b">AM Automobile</text>
+  </g>
+</svg>
