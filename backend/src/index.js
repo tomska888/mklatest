@@ -28,6 +28,15 @@ app.set('trust proxy', 1);
 // Basic security and performance middleware
 app.use(helmet());
 
+// Suppress Permissions-Policy warnings for experimental features
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy',
+    'compute-pressure=(), attribution-reporting=(), private-aggregation=(), ' +
+    'join-ad-interest-group=(), run-ad-auction=(), browsing-topics=()'
+  );
+  next();
+});
+
 // CORS: prefer explicit origins. If CORS_ORIGINS is not set, default to reflecting origin
 // WITHOUT credentials (safer default). Set CORS_ORIGINS="https://example.com,https://www.example.com"
 // to enable credentialed cross-site requests.
