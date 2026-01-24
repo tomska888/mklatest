@@ -4,7 +4,11 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
 // Load environment variables (will be loaded by index.js, but safe to call again)
-dotenv.config();
+try {
+  dotenv.config();
+} catch (err) {
+  console.warn('[config] dotenv.config() failed:', err.message);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

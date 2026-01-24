@@ -6,7 +6,11 @@ import { fileURLToPath } from 'url';
 import config, { validateConfig } from './config.js';
 
 // Load environment variables (will be loaded by index.js, but safe to call again)
-dotenv.config();
+try {
+  dotenv.config();
+} catch (err) {
+  console.warn('[db] dotenv.config() failed:', err.message);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
