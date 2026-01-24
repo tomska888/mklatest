@@ -634,9 +634,6 @@ onMounted(() => {
     gap: .4rem .5rem;
     min-height: auto;
   }
-  .car-card .details-row:last-of-type {
-    grid-template-columns: 1fr;
-  }
   .car-card .detail-item {
     display: inline-flex;
     align-items: center;
