@@ -49,46 +49,19 @@
             <img :src="c.thumb_url || ('https://picsum.photos/seed/' + c.id + '/800/450')" :alt="c.title" loading="lazy" />
           </router-link>
           <div class="card-body">
-            <div class="card-content">
-              <h3 class="title">{{ c.title }}</h3>
-              <div class="details-row">
-                <span class="detail-item">
-                  <i class="fa-regular fa-calendar"></i>
-                  {{ c.year }}
-                </span>
-                <span class="detail-item">
-                  <i class="fa-solid fa-gauge-high"></i>
-                  {{ num(c.mileage) }} km
-                </span>
-              </div>
-              <div class="details-row">
-                <span class="detail-item">
-                  <i class="fa-solid fa-gas-pump"></i>
-                  {{ c.fuel_type }}
-                </span>
-                <span class="detail-item">
-                  <i class="fa-solid fa-gears"></i>
-                  {{ c.transmission }}
-                </span>
-              </div>
-              <div class="details-row" v-if="c.power_kw">
-                <span class="detail-item">
-                  <i class="fa-solid fa-bolt"></i>
-                  {{ c.power_kw }} kW ({{ c.power_hp }} HP)
-                </span>
-              </div>
-            </div>
-            <div class="card-footer">
-              <button
-                class="favorite-btn is-favorite"
-                @click="removeFavorite(c.id)"
-                title="Remove from favorites"
-              >
-                <i class="fa-solid fa-heart"></i>
+            <div class="row1">
+              <h3 class="title small">{{ c.title }}</h3>
+              <button class="icon-btn fav-btn active" :title="'Remove from favorites'" @click="removeFavorite(c.id)">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
-              <span class="detail-item price">
-                {{ formatPrice(c.price) }}
-              </span>
+            </div>
+            <div class="meta-row">
+              <span>{{ c.make }} • {{ c.model }} • {{ c.year }}</span>
+              <span>{{ formatPrice(c.price) }}</span>
+            </div>
+            <div class="meta-row">
+              <span>{{ num(c.mileage) }} km</span>
+              <span>{{ c.fuel_type }} • {{ c.transmission }}</span>
             </div>
           </div>
         </div>
@@ -316,59 +289,20 @@ onMounted(async ()=>{ await loadUser(); await Promise.all([loadFavorites(), load
 
 .panel{ padding:0; margin-bottom:1rem; width:100%; display:flex; flex-direction:column; gap:1rem; }
 
-/* Favorites cards - using same styling as Cars page */
+/* Favorites cards */
 .grid{ display:grid; gap:1rem; }
 .cols-3{ grid-template-columns: repeat(3, 1fr); }
+/* Favorites grid uses 4 columns via global .grid.cols-4 */
 @media (max-width: 1020px){ .cols-3{ grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px){ .cols-3{ grid-template-columns: 1fr; } }
-
 .car-card{ transition: transform .16s ease, box-shadow .16s ease; border-radius:.75rem; overflow:hidden; }
 .car-card:hover{ transform: translateY(-2px); box-shadow: 0 10px 24px rgba(2,6,23,.10); }
-.car-card .thumb { display: block; text-decoration: none; overflow: hidden; }
-.car-card .thumb img { width:100%; height: 190px; object-fit: cover; display:block; transition: transform .2s ease; }
-.car-card .thumb:hover img { transform: scale(1.05); }
-.car-card .card-body { display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
-.car-card .card-content { display: flex; flex-direction: column; gap: .5rem; }
-.car-card .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: .5rem; border-top: 1px solid #e5e7eb; margin-top: .5rem; }
-.car-card .title { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text); line-height: 1.3; }
-.car-card .details-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 1.5rem; }
-.car-card .detail-item { display: inline-flex; align-items: center; gap: .4rem; color: #64748b; font-size: .875rem; line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.car-card .detail-item i { flex-shrink: 0; color: #94a3b8; font-size: .75rem; width: 14px; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
-.car-card .detail-item.price { font-weight: 600; color: var(--brand); font-size: 1.1rem; }
-.car-card .favorite-btn { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform .2s ease; }
-.car-card .favorite-btn:hover { transform: scale(1.15); }
-.car-card .favorite-btn i { font-size: 1.1rem; color: #94a3b8; transition: color .2s ease; }
-.car-card .favorite-btn:hover i { color: #ef4444; }
-.car-card .favorite-btn.is-favorite i { color: #ef4444; }
-
-@media (max-width: 768px) {
-  .car-card .card-content { gap: .4rem; }
-  .car-card .details-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: .4rem .5rem;
-    min-height: auto;
-  }
-  .car-card .details-row:last-of-type {
-    grid-template-columns: 1fr;
-  }
-  .car-card .detail-item {
-    display: inline-flex;
-    align-items: center;
-    white-space: normal;
-    font-size: .85rem;
-    line-height: 1.5;
-  }
-  .car-card .detail-item i {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .car-card .title {
-    font-size: 1rem;
-    margin-bottom: .2rem;
-  }
-}
+.car-card .thumb{ display:block; border-bottom:1px solid #f1f5f9; }
+.car-card .thumb img{ width:100%; height:auto; object-fit:cover; display:block; }
+.row1{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.meta-row{ display:flex; align-items:center; justify-content:space-between; color:#475569; font-size:.95rem; }
+.icon-btn{ width:30px; height:30px; border:1px solid #e5e7eb; border-radius:.5rem; display:grid; place-items:center; background:#fff; cursor:pointer; }
+.fav-btn.active{ color:#ef4444; border-color:#fecaca; background:#fff1f2; }
 
 /* Account */
 .section{ padding:1rem; }
@@ -416,6 +350,8 @@ onMounted(async ()=>{ await loadUser(); await Promise.all([loadFavorites(), load
 [data-theme='dark'] .tab{ background:#0b1220; border-color:#334155; color:#cbd5e1; }
 [data-theme='dark'] .tab.active{ background:#0f172a; box-shadow: inset 0 0 0 2px #cbd5e1; border-color:#cbd5e1; }
 [data-theme='dark'] .pill{ background:#0b1220; border-color:#334155; color:#cbd5e1; }
+[data-theme='dark'] .icon-btn{ background:#0b1220; border-color:#334155; color:#cbd5e1; }
+[data-theme='dark'] .fav-btn.active{ color:#fca5a5; border-color:#9f1239; background:#1f0a12; }
 
 /* Final alignment overrides to match screenshot */
 .profile-page .panel{ padding-left:0; padding-right:0; }
