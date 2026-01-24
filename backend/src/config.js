@@ -3,11 +3,9 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
-// Only load .env in development. In production, rely on platform-injected environment variables
-// or config.local.json. If you need to use .env in production, upload it via File Manager.
-if ((process.env.NODE_ENV || 'production') !== 'production') {
-  dotenv.config();
-}
+// WORKAROUND: Hostinger has a known bug where env vars aren't properly read outside .env files.
+// Always load .env file regardless of NODE_ENV. Make sure to upload .env to the server.
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -15,12 +15,9 @@ import favoritesRouter from './routes/favorites.js';
 import { initializeSchema, ping, getPool } from './db.js';
 
 // Load environment variables
-// In production on managed hosts (e.g., Hostinger hPanel), environment variables are injected
-// by the platform. Only load .env in development to avoid overriding platform-injected vars.
-// Note: If Hostinger doesn't inject vars, you must manually upload a .env file or use config.local.json
-if ((process.env.NODE_ENV || 'production') !== 'production') {
-  dotenv.config();
-}
+// WORKAROUND: Hostinger has a known bug where env vars aren't properly read outside .env files.
+// Always load .env file regardless of NODE_ENV. Make sure to upload .env to the server.
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
