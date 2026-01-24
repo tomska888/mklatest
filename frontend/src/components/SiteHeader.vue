@@ -1,5 +1,5 @@
 <template>
-  <header :class="['site-header', { scrolled }]">
+  <header :class="['site-header', { scrolled }]" ref="headerEl">
     <div class="container bar">
       <!-- Brand -->
       <router-link class="brand" to="/">
@@ -11,17 +11,16 @@
         <span class="brand-name">MK Automobile</span>
       </router-link>
 
-      <!-- Nav -->
-      <button class="burger" @click="open = !open" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-      <nav :class="['nav', { open }]">
+      <!-- Nav (desktop) -->
+      <nav class="nav desktop-nav">
         <router-link to="/">{{ $t('nav.home') }}</router-link>
         <router-link to="/cars">{{ $t('nav.inventory') }}</router-link>
         <router-link to="/about">{{ $t('nav.about') }}</router-link>
         <router-link to="/contact">{{ $t('nav.contact') }}</router-link>
       </nav>
 
-      <!-- Actions -->
-      <div class="actions">
+      <!-- Actions (desktop) -->
+      <div class="actions desktop-actions">
         <div class="lang" ref="langEl">
           <button class="icon-btn" :title="'Language'" aria-label="Language" @click.stop="langOpen = !langOpen">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M2.5 12h19"/><path d="M12 3c3 4 3 14 0 18"/></svg>
@@ -66,8 +65,89 @@
           </router-link>
         </template>
       </div>
+
+      <!-- Burger menu button (mobile) -->
+      <button class="burger" @click="open = !open" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile menu overlay -->
+  <Teleport to="body">
+    <div v-if="open" class="mobile-overlay" @click="open = false"></div>
+    
+    <!-- Mobile menu -->
+    <div :class="['mobile-menu', { open }]">
+      <nav class="mobile-nav">
+        <router-link to="/" @click="open = false">{{ $t('nav.home') }}</router-link>
+        <router-link to="/cars" @click="open = false">{{ $t('nav.inventory') }}</router-link>
+        <router-link to="/about" @click="open = false">{{ $t('nav.about') }}</router-link>
+        <router-link to="/contact" @click="open = false">{{ $t('nav.contact') }}</router-link>
+      </nav>
+
+      <div class="mobile-divider"></div>
+
+      <!-- Mobile theme & language (two columns) -->
+      <div class="mobile-settings-container">
+        <!-- Theme Column -->
+        <div class="mobile-settings-column">
+          <div class="mobile-section-label">Theme</div>
+          <button class="mobile-theme-icon-btn" @click="theme.toggle()" :title="theme.mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'">
+            <template v-if="theme.mode === 'dark'">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </template>
+            <template v-else>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+            </template>
+          </button>
+        </div>
+
+        <!-- Languages Column -->
+        <div class="mobile-settings-column">
+          <div class="mobile-section-label">Languages</div>
+          <div class="mobile-lang-row">
+            <button class="mobile-lang-btn" :class="{ active: localeStore.current === 'en' }" @click="pickLocaleMobile('en')" title="English">EN</button>
+            <button class="mobile-lang-btn" :class="{ active: localeStore.current === 'de' }" @click="pickLocaleMobile('de')" title="Deutsch">DE</button>
+            <button class="mobile-lang-btn" :class="{ active: localeStore.current === 'lt' }" @click="pickLocaleMobile('lt')" title="Lietuvių">LT</button>
+            <button class="mobile-lang-btn" :class="{ active: localeStore.current === 'pl' }" @click="pickLocaleMobile('pl')" title="Polski">PL</button>
+            <button class="mobile-lang-btn" :class="{ active: localeStore.current === 'ru' }" @click="pickLocaleMobile('ru')" title="Русский">RU</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-divider"></div>
+
+      <!-- Mobile auth section -->
+      <div class="mobile-section">
+        <template v-if="auth.user">
+          <router-link class="mobile-btn" to="/profile" @click="open = false">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>{{ $t('auth.profile') }}</span>
+          </router-link>
+          <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="mobile-btn" to="/admin" @click="open = false">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+            <span>Admin</span>
+          </router-link>
+          <button class="mobile-btn danger" @click="logout">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+            <span>{{ $t('auth.logout') }}</span>
+          </button>
+        </template>
+        <template v-else>
+          <router-link class="mobile-btn primary" to="/login" @click="open = false">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>{{ $t('auth.login') }}</span>
+          </router-link>
+        </template>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -87,6 +167,7 @@ const open = ref(false);
 const scrolled = ref(false);
 const profileOpen = ref(false);
 const profileEl = ref(null);
+const headerEl = ref(null);
 
 const langOpen = ref(false);
 const langEl = ref(null);
@@ -98,6 +179,11 @@ function handleScroll() {
 function onDocClick(e) {
   if (profileEl.value && !profileEl.value.contains(e.target)) profileOpen.value = false;
   if (langEl.value && !langEl.value.contains(e.target)) langOpen.value = false;
+  
+  // Close mobile menu when clicking outside header
+  if (headerEl.value && !headerEl.value.contains(e.target) && open.value) {
+    open.value = false;
+  }
 }
 
 function toggleProfile() {
@@ -107,6 +193,10 @@ function toggleProfile() {
 function pickLocale(code) {
   localeStore.set(code);
   langOpen.value = false;
+}
+
+function pickLocaleMobile(code) {
+  localeStore.set(code);
 }
 
 onMounted(() => {
@@ -123,6 +213,7 @@ onUnmounted(() => {
 function logout() {
   auth.logout();
   profileOpen.value = false;
+  open.value = false;
   router.push('/');
 }
 </script>
@@ -168,7 +259,7 @@ function logout() {
 .lang { position: relative; }
 .lang .menu { position:absolute; right:0; top:110%; background:#fff; border:1px solid #e5e7eb; border-radius:.5rem; box-shadow: 0 12px 24px rgba(2,6,23,.10); padding:.25rem; min-width:160px; z-index:60; }
 
-.btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease; }
+.btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease; display:inline-flex; align-items:center; gap:.35rem; text-decoration:none; }
 .btn.small.primary { background:#2563eb; color:#fff; }
 .btn.small.primary:hover { background:#1d4ed8; transform: translateY(-1px); }
 .btn.small.outline { background:#fff; color:#0f172a; border-color:#cbd5e1; }
@@ -184,15 +275,224 @@ function logout() {
 .menu-item.danger { color:#dc2626; }
 .menu-item.danger:hover { background:#fef2f2; color:#b91c1c; }
 
-/* Burger + responsive */
-.burger { display:none; background:none; border:none; cursor:pointer; transition: transform .16s ease; }
+/* Burger */
+.burger { display:none; background:none; border:none; cursor:pointer; transition: transform .16s ease; padding:.25rem; }
 .burger:hover { transform: translateY(-1px); }
-.burger span { display:block; width:22px; height:2px; background:#0f172a; margin:4px 0; }
+.burger span { display:block; width:22px; height:2px; background:#0f172a; margin:4px 0; border-radius:2px; transition: all .2s ease; }
 
+/* Mobile menu overlay */
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile menu */
+.mobile-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 58px;
+  height: 46vh;
+  max-height: 500px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 8px 32px rgba(2,6,23,.15);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  z-index: 9999;
+  padding-top: 1rem;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  padding: .5rem 0;
+}
+
+.mobile-nav a {
+  color: #0f172a;
+  text-decoration: none;
+  padding: .75rem 1.5rem;
+  font-weight: 500;
+  transition: background-color .18s ease, color .18s ease;
+  text-align: center;
+  width: 100%;
+}
+
+.mobile-nav a:hover {
+  background: #f8fafc;
+  color: #0b1b2b;
+}
+
+.mobile-nav a.router-link-active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.mobile-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: .5rem 0;
+}
+
+.mobile-section {
+  padding: .5rem;
+}
+
+.mobile-section-label {
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #64748b;
+  padding: .5rem 1rem .25rem;
+  letter-spacing: .05em;
+}
+
+.mobile-btn {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  padding: .75rem 1rem;
+  background: none;
+  border: none;
+  border-radius: .5rem;
+  color: #0f172a;
+  font-weight: 500;
+  font-size: .95rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+
+.mobile-btn:hover {
+  background: #f8fafc;
+}
+
+.mobile-btn.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.mobile-btn.primary {
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  justify-content: center;
+}
+
+.mobile-btn.primary:hover {
+  background: #1d4ed8;
+}
+
+.mobile-btn.danger {
+  color: #dc2626;
+}
+
+.mobile-btn.danger:hover {
+  background: #fef2f2;
+}
+
+.mobile-settings-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4rem;
+  padding: .5rem 1rem;
+}
+
+.mobile-settings-column {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.mobile-settings-column .mobile-section-label {
+  padding: 0;
+  margin-bottom: .25rem;
+}
+
+.mobile-theme-icon-btn {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: .5rem;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+
+.mobile-theme-icon-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.mobile-lang-row {
+  display: flex;
+  gap: .4rem;
+  flex-wrap: nowrap;
+}
+
+.mobile-lang-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: .75rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  border-radius: .5rem;
+  background: #fff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all .18s ease;
+  text-align: center;
+  display: grid;
+  place-items: center;
+}
+
+.mobile-lang-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.mobile-lang-btn.active {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+/* Responsive */
 @media (max-width: 900px) {
-  .bar { grid-template-columns: auto auto auto; }
-  .burger { display:block; }
-  .nav { display:none; position:absolute; left:0; right:0; top:58px; background:#fff; border-bottom:1px solid #e5e7eb; padding:.5rem; box-shadow: 0 8px 20px rgba(2,6,23,.06); }
-  .nav.open { display:flex; flex-wrap:wrap; justify-content:center; }
+  .bar { grid-template-columns: 1fr auto; }
+  .burger { display: block; }
+  .desktop-nav { display: none; }
+  .desktop-actions { display: none; }
+}
+
+@media (min-width: 901px) {
+  .mobile-menu,
+  .mobile-overlay {
+    display: none !important;
+  }
 }
 </style>
