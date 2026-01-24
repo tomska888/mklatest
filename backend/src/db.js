@@ -5,10 +5,8 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import config, { validateConfig } from './config.js';
 
-// Only load .env in development. In production, rely on platform-injected environment variables
-if ((process.env.NODE_ENV || 'production') !== 'production') {
-  dotenv.config();
-}
+// Use override: false to prevent .env from overriding platform-injected environment variables
+dotenv.config({ override: false });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
