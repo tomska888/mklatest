@@ -116,8 +116,8 @@ router.post(
       const token = signToken(user);
       res.json({ user, token });
     } catch (err) {
-      logError('[auth/login]', err);
-      res.status(500).json({ error: 'Server error' });
+      console.error('LOGIN ERROR:', err);
+      return res.status(500).json({ message: 'Internal error' });
     }
   }
 );
