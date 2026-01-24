@@ -3,8 +3,11 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
-// Always load .env if present (even in production) so hPanel Import .env or manual file works
-dotenv.config();
+// Only load .env in development. In production, rely on platform-injected environment variables
+// or config.local.json. If you need to use .env in production, upload it via File Manager.
+if ((process.env.NODE_ENV || 'production') !== 'production') {
+  dotenv.config();
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

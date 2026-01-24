@@ -16,8 +16,11 @@ import { initializeSchema, ping, getPool } from './db.js';
 
 // Load environment variables
 // In production on managed hosts (e.g., Hostinger hPanel), environment variables are injected
-// by the platform. Loading a local .env can unintentionally override them with empty values.
-dotenv.config({ override: (process.env.NODE_ENV || 'production') !== 'production' });
+// by the platform. Only load .env in development to avoid overriding platform-injected vars.
+// Note: If Hostinger doesn't inject vars, you must manually upload a .env file or use config.local.json
+if ((process.env.NODE_ENV || 'production') !== 'production') {
+  dotenv.config();
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

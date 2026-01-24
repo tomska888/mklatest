@@ -5,7 +5,10 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import config, { validateConfig } from './config.js';
 
-dotenv.config();
+// Only load .env in development. In production, rely on platform-injected environment variables
+if ((process.env.NODE_ENV || 'production') !== 'production') {
+  dotenv.config();
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
