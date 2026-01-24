@@ -9,9 +9,9 @@ if (!process.env.DATABASE_HOST) {
     process.env.NODE_ENV = 'production';
     process.env.DATABASE_HOST = '127.0.0.1';
     process.env.DATABASE_PORT = '3306';
-    process.env.DATABASE_USER = 'u155655424_mktest1';
+    process.env.DATABASE_USER = 'u155655424_mktest';
     process.env.DATABASE_PASSWORD = 'Kakas888*';
-    process.env.DATABASE_NAME = 'u155655424_tomas123';
+    process.env.DATABASE_NAME = 'u155655424_8tomska888';
     process.env.JWT_SECRET = 'change_this_to_a_long_random_string';
     process.env.TOKEN_EXPIRES_IN = '7d';
     process.env.SMTP_HOST = 'smtp.gmail.com';
