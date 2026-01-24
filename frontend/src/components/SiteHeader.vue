@@ -304,7 +304,7 @@ function logout() {
   left: 0;
   right: 0;
   top: 48px;
-  height: 70vh;
+  height: 55vh;
   max-height: 500px;
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
