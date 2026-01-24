@@ -126,18 +126,20 @@
       <!-- Mobile auth section -->
       <div class="mobile-section">
         <template v-if="auth.user">
-          <router-link class="mobile-btn" to="/profile" @click="open = false">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>{{ $t('auth.profile') }}</span>
-          </router-link>
-          <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="mobile-btn" to="/admin" @click="open = false">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
-            <span>Admin</span>
-          </router-link>
-          <button class="mobile-btn danger" @click="logout">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            <span>{{ $t('auth.logout') }}</span>
-          </button>
+          <div class="mobile-auth-row">
+            <router-link class="mobile-btn" to="/profile" @click="open = false">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>{{ $t('auth.profile') }}</span>
+            </router-link>
+            <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="mobile-btn" to="/admin" @click="open = false">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+              <span>Admin</span>
+            </router-link>
+            <button class="mobile-btn danger" @click="logout">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+              <span>{{ $t('auth.logout') }}</span>
+            </button>
+          </div>
         </template>
         <template v-else>
           <router-link class="mobile-btn primary" to="/login" @click="open = false">
@@ -301,8 +303,8 @@ function logout() {
   position: fixed;
   left: 0;
   right: 0;
-  top: 58px;
-  height: 46vh;
+  top: 48px;
+  height: 70vh;
   max-height: 500px;
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
@@ -479,6 +481,16 @@ function logout() {
   background: #2563eb;
   color: #fff;
   border-color: #2563eb;
+}
+
+.mobile-auth-row {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+}
+
+.mobile-auth-row .mobile-btn {
+  width: auto;
 }
 
 /* Responsive */
