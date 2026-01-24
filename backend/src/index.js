@@ -3,7 +3,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs-extra';
@@ -14,10 +13,8 @@ import companyRouter from './routes/company.js';
 import favoritesRouter from './routes/favorites.js';
 import { initializeSchema, ping, getPool } from './db.js';
 
-// Load environment variables
 // WORKAROUND: Hostinger has a known bug where env vars aren't properly read outside .env files.
-// Always load .env file regardless of NODE_ENV. Make sure to upload .env to the server.
-dotenv.config();
+// Environment variables are now set directly in config.js instead.
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

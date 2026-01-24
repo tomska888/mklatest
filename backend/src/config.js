@@ -1,11 +1,33 @@
 import fs from 'fs-extra';
 import path from 'path';
-import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
 // WORKAROUND: Hostinger has a known bug where env vars aren't properly read outside .env files.
-// Always load .env file regardless of NODE_ENV. Make sure to upload .env to the server.
-dotenv.config();
+// Hardcode the environment variables directly in the config instead of relying on .env file.
+if (!process.env.DATABASE_HOST) {
+    process.env.PORT = '3000';
+    process.env.NODE_ENV = 'production';
+    process.env.DATABASE_HOST = '127.0.0.1';
+    process.env.DATABASE_PORT = '3306';
+    process.env.DATABASE_USER = 'u155655424_mktest1';
+    process.env.DATABASE_PASSWORD = 'Kakas888*';
+    process.env.DATABASE_NAME = 'u155655424_tomas123';
+    process.env.JWT_SECRET = 'change_this_to_a_long_random_string';
+    process.env.TOKEN_EXPIRES_IN = '7d';
+    process.env.SMTP_HOST = 'smtp.gmail.com';
+    process.env.SMTP_PORT = '465';
+    process.env.SMTP_SECURE = 'true';
+    process.env.SMTP_USER = 'mk.automobile.de';
+    process.env.SMTP_PASS = 'fjky dbkf lgjd sals';
+    process.env.SMTP_FROM = 'MK Automobile" <mk.automobile.de@gmail.com>';
+    process.env.COMPANY_NAME = 'MK Automobile';
+    process.env.COMPANY_ADDRESS = 'Döngesbreite 4, 34471 Volkmarsen, Germany';
+    process.env.COMPANY_PHONE = '+49 5693 9180835';
+    process.env.COMPANY_EMAIL = 'mk.automobile.de@gmail.com';
+    process.env.COMPANY_LAT = '52.5200';
+    process.env.COMPANY_LNG = '13.4050';
+    process.env.UPLOADS_BASE_PATH = '/api/uploads';
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
