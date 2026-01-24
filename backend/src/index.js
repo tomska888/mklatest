@@ -14,11 +14,9 @@ import companyRouter from './routes/company.js';
 import favoritesRouter from './routes/favorites.js';
 import { initializeSchema, ping, getPool } from './db.js';
 
-// Load environment variables
-// Use override: false to prevent .env from overriding platform-injected environment variables.
-// This way, if Hostinger injects DATABASE_HOST etc., they won't be replaced by empty .env values.
-// But if no platform vars exist, .env will still work.
-dotenv.config({ override: false });
+// Load environment variables from .env file
+// Platform-injected env vars (if any) will already be in process.env and won't be overwritten
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
