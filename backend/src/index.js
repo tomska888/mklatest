@@ -157,7 +157,7 @@ app.get('/api/health', async (req, res) => {
           }
         }
       : {}),
-    service: 'AM Automobile API',
+    service: 'MK Automobile API',
     env: process.env.NODE_ENV || 'production',
     time: new Date().toISOString(),
     version: '1.0.0'

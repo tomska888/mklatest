@@ -622,7 +622,7 @@ async function saveCompany() { try { savingCompany.value = true; Object.assign(c
 
 // Newsletter
 const subscribers = ref([]);
-const mail = reactive({ subject:'Latest cars from AM Automobile', html:'<p>Check our newest arrivals at https://yourdomain.com</p>' });
+const mail = reactive({ subject:'Latest cars from MK Automobile', html:'<p>Check our newest arrivals at https://yourdomain.com</p>' });
 const sending = ref(false);
 async function loadSubscribers() { try { const r = await NewsletterAPI.list(); subscribers.value = r.items || []; } catch {} }
 async function sendNewsletter() { try { sending.value = true; await NewsletterAPI.send(mail); alert('Newsletter queued for sending'); } finally { sending.value = false; } }

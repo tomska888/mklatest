@@ -378,14 +378,14 @@ async function uploadDocuments(e) {
 async function deleteDocument(d) { if (!form.id || !d?.id) return; await CarsAPI.deleteDocument(form.id, d.id); await fetchCarDetails(form.id); }
 
 // Company
-const company = reactive({ name:'AM Automobile', address:'', phone:'', email:'', lat:52.52, lng:13.405, about:'' });
+const company = reactive({ name:'MK Automobile', address:'', phone:'', email:'', lat:52.52, lng:13.405, about:'' });
 const savingCompany = ref(false);
 async function loadCompany() { try { Object.assign(company, await CompanyAPI.get() || {}); } catch {} }
 async function saveCompany() { try { savingCompany.value = true; Object.assign(company, await CompanyAPI.update(company)); } finally { savingCompany.value = false; } }
 
 // Newsletter
 const subscribers = ref([]);
-const mail = reactive({ subject:'Latest cars from AM Automobile', html:'<p>Check our newest arrivals at https://yourdomain.com</p>' });
+const mail = reactive({ subject:'Latest cars from MK Automobile', html:'<p>Check our newest arrivals at https://yourdomain.com</p>' });
 const sending = ref(false);
 async function loadSubscribers() { try { const r = await NewsletterAPI.list(); subscribers.value = r.items || []; } catch {} }
 async function sendNewsletter() { try { sending.value = true; await NewsletterAPI.send(mail); alert('Newsletter queued for sending'); } finally { sending.value = false; } }

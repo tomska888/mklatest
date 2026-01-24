@@ -156,7 +156,7 @@
 import { reactive, ref, onMounted, computed } from 'vue';
 import { CompanyAPI } from '../api.js';
 
-const company = reactive({ name: 'AM Automobile', address: '', phone: '', email: '', lat: 51.3866, lng: 9.1147 });
+const company = reactive({ name: 'MK Automobile', address: '', phone: '', email: '', lat: 51.3866, lng: 9.1147 });
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' });
 
 const mapSrc = computed(() => {
