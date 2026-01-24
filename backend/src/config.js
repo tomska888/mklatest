@@ -3,11 +3,10 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 
-// Load environment variables (will be loaded by index.js, but safe to call again)
-try {
+// Only load .env in development. In production, rely on platform-injected environment variables
+// or config.local.json. If you need to use .env in production, upload it via File Manager.
+if ((process.env.NODE_ENV || 'production') !== 'production') {
   dotenv.config();
-} catch (err) {
-  console.warn('[config] dotenv.config() failed:', err.message);
 }
 
 const __filename = fileURLToPath(import.meta.url);

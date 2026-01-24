@@ -7,25 +7,20 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs-extra';
-
-// Load environment variables FIRST before any other imports that might use them
-// This ensures env vars are available when config.js and db.js are imported
-try {
-  dotenv.config();
-  console.log('[startup] Environment variables loaded');
-  console.log('[startup] DATABASE_HOST:', process.env.DATABASE_HOST || 'NOT SET');
-  console.log('[startup] DATABASE_USER:', process.env.DATABASE_USER ? 'SET' : 'NOT SET');
-  console.log('[startup] DATABASE_NAME:', process.env.DATABASE_NAME || 'NOT SET');
-} catch (err) {
-  console.error('[startup] Failed to load .env:', err.message);
-}
-
 import authRouter from './routes/auth.js';
 import carsRouter from './routes/cars.js';
 import newsletterRouter from './routes/newsletter.js';
 import companyRouter from './routes/company.js';
 import favoritesRouter from './routes/favorites.js';
 import { initializeSchema, ping, getPool } from './db.js';
+
+// Load environment variables
+// In production on managed hosts (e.g., Hostinger hPanel), environment variables are injected
+// by the platform. Only load .env in development to avoid overriding platform-injected vars.
+// Note: If Hostinger doesn't inject vars, you must manually upload a .env file or use config.local.json
+if ((process.env.NODE_ENV || 'production') !== 'production') {
+  dotenv.config();
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -191,14 +186,6 @@ initializeSchema().catch(err => console.error('[db] init failed:', err));
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
-// Wrap server startup in try-catch to prevent crashes
-try {
-  app.listen(PORT, HOST, () => {
-    console.log(`[startup] AM Automobile API listening on http://${HOST}:${PORT}`);
-    console.log(`[startup] Environment: ${process.env.NODE_ENV || 'production'}`);
-    console.log(`[startup] Server started successfully`);
-  });
-} catch (err) {
-  console.error('[startup] FATAL: Failed to start server:', err);
-  process.exit(1);
-}
+app.listen(PORT, HOST, () => {
+  console.log(`AM Automobile API listening on http://${HOST}:${PORT}`);
+});
