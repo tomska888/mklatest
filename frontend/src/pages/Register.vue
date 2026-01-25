@@ -163,7 +163,7 @@ async function submit() {
 .form-sub { margin:0 0 18px; color:#6b7280; }
 
 .field { position:relative; }
-.with-icon .icon { position:absolute; left:10px; top:60%; transform: translateY(-50%); color:#64748b; font-size: 16px; }
+.with-icon .icon { position:absolute; left:10px; top:50%; transform: translateY(-50%); color:#64748b; font-size: 16px; display: flex; align-items: center; justify-content: center; }
 .with-icon .input { padding-left:36px; }
 .input { width:100%; height:40px; border:1px solid #e5e7eb; border-radius:8px; background:#f7f7fb; padding:0 12px; outline: none; }
 .input:focus { border-color:#c7d2fe; box-shadow: 0 0 0 3px rgba(59,130,246,.15); background:#fff; }

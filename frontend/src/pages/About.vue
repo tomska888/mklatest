@@ -142,23 +142,26 @@
         </div>
       </section>
 
-      <!-- CTA -->
-      <section class="cta">
-        <h3 class="section-title center">Ready to Find Your Perfect Car?</h3>
-        <p class="muted">Browse our extensive inventory of premium quality vehicles. Test drive available for all cars.</p>
-        <div class="buttons">
-          <router-link class="btn primary" to="/cars">Browse Inventory</router-link>
-          <router-link class="btn outline" to="/contact">Contact Us</router-link>
-        </div>
-      </section>
     </div>
+
+    <!-- BLUE CTA BAND -->
+    <section class="cta-band">
+      <div class="container band-inner">
+        <h3>Ready to Find Your Perfect Car?</h3>
+        <p>Browse our extensive inventory of premium quality vehicles. Test drive available for all cars.</p>
+        <div class="band-actions">
+          <router-link class="btn white" to="/cars">Browse Inventory</router-link>
+          <router-link class="btn outline light" to="/contact">Contact Us</router-link>
+        </div>
+      </div>
+    </section>
   </section>
 </template>
 
 
 <style scoped>
 /* Use same heading sizes/colors as Contact page */
-.about-page { padding-top: 1rem; padding-bottom: 2.5rem; }
+.about-page { padding-top: 1rem }
 .hero-block { text-align:center; margin: 1.25rem 0 1.75rem; }
 .title { font-size: 44px; line-height:1.2; margin: 0 0 .25rem; font-weight: 500; color: #0b1b2b; letter-spacing: 0; }
 .subtitle { color:#475569; }
@@ -194,10 +197,14 @@
 .tick-icon { width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:#eff6ff; color:#1d4ed8; border:1px solid #e5e7eb; flex:0 0 28px; }
 .tick-icon i { font-size:18px; }
 
-/* CTA */
-.cta { text-align:center; margin: 1.75rem 0 .5rem; }
-.muted { color:#64748b; }
-.buttons { display:flex; gap:.75rem; justify-content:center; }
+/* BLUE CTA BAND - matches Home page */
+.cta-band { width:100vw; margin-left: calc(50% - 50vw); margin-top: 1.6rem; background:#1d4ed8; color:#fff; padding: 2rem 0; }
+.band-inner { text-align:center; }
+.band-inner h3 { margin: 0 0 .35rem; font-size: 26px; }
+.band-inner p { margin: 0 0 .9rem; opacity:.95; }
+.band-actions { display:flex; gap:.75rem; justify-content:center; }
+.btn.white { background:#fff; color:#0f172a; }
+.btn.outline.light { border-color: rgba(255,255,255,.7); color:#fff; background: transparent; }
 
 /* Responsive */
 @media (max-width: 1024px) { .story { grid-template-columns: 1fr; } }
