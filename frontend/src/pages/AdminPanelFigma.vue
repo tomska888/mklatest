@@ -12,7 +12,7 @@
           <h1>Admin Panel</h1>
         </div>
         <button class="btn outline" @click="logout" :disabled="saving || sending">
-          <span class="material">↩</span>
+          <i class="fa-solid fa-right-from-bracket"></i>
           <span class="hide-sm">Logout</span>
         </button>
       </div>
@@ -27,7 +27,7 @@
             :class="{ active: current === 'dashboard' }"
             @click="go('dashboard')"
           >
-            <span class="icon">📊</span>
+            <i class="fa-solid fa-chart-line icon"></i>
             <span>Dashboard</span>
           </button>
           <button
@@ -35,7 +35,7 @@
             :class="{ active: ['cars','car-form'].includes(current) }"
             @click="go('cars')"
           >
-            <span class="icon">🚗</span>
+            <i class="fa-solid fa-car icon"></i>
             <span>Car Management</span>
           </button>
           <button
@@ -43,7 +43,7 @@
             :class="{ active: current === 'inquiries' }"
             @click="go('inquiries')"
           >
-            <span class="icon">💬</span>
+            <i class="fa-solid fa-comments icon"></i>
             <span>Inquiries</span>
           </button>
           <button
@@ -51,7 +51,7 @@
             :class="{ active: current === 'company' }"
             @click="go('company')"
           >
-            <span class="icon">🏢</span>
+            <i class="fa-solid fa-building icon"></i>
             <span>Company</span>
           </button>
           <button
@@ -59,7 +59,7 @@
             :class="{ active: current === 'newsletter' }"
             @click="go('newsletter')"
           >
-            <span class="icon">✉️</span>
+            <i class="fa-solid fa-envelope icon"></i>
             <span>Newsletter</span>
           </button>
         </nav>
@@ -144,13 +144,13 @@
           <!-- Header -->
           <div class="flex-between">
             <div class="search-wrap">
-              <span class="search-icon">🔍</span>
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
               <input class="input search" placeholder="Search cars..." v-model="carsState.q" @keyup.enter="loadCars" />
             </div>
             <div class="row-inline">
               <button class="btn outline" @click="loadCars" :disabled="loadingCars">{{ loadingCars ? 'Searching…' : 'Search' }}</button>
               <button class="btn primary" @click="startAddCar">
-                <span class="material">＋</span>
+                <i class="fa-solid fa-plus"></i>
                 New
               </button>
             </div>
@@ -186,8 +186,8 @@
                   </td>
                   <td style="text-align:right;">
                     <div class="row-actions">
-                      <button class="btn ghost" @click="startEditCar(c)" title="Edit">✏️</button>
-                      <button class="btn ghost danger" @click="askDelete(c)" title="Delete">🗑️</button>
+                      <button class="btn ghost" @click="startEditCar(c)" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                      <button class="btn ghost danger" @click="askDelete(c)" title="Delete"><i class="fa-solid fa-trash"></i></button>
                     </div>
                   </td>
                 </tr>
@@ -226,12 +226,12 @@
         <div v-else-if="current === 'car-form'" class="space">
           <!-- Header -->
           <div class="form-header">
-            <button class="btn ghost" @click="cancelForm" title="Back" aria-label="Back">⬅</button>
+            <button class="btn ghost" @click="cancelForm" title="Back" aria-label="Back"><i class="fa-solid fa-arrow-left"></i></button>
             <div class="form-headings">
               <h2>{{ form.id ? 'Edit Car #' + form.id : 'Add New Car' }}</h2>
               <p class="muted">{{ form.id ? 'Update vehicle information' : 'Add a new vehicle to inventory' }}</p>
             </div>
-            <button class="btn primary" @click="saveCar" :disabled="saving">{{ saving ? 'Saving…' : '💾 Save Vehicle' }}</button>
+            <button class="btn primary" @click="saveCar" :disabled="saving"><i class="fa-solid fa-floppy-disk"></i> {{ saving ? 'Saving…' : 'Save Vehicle' }}</button>
           </div>
 
           <!-- Tabs -->
@@ -324,13 +324,13 @@
                   <div v-if="(media||[]).length" class="images-grid">
                     <div v-for="m in media" :key="m.id" class="img-item">
                       <img v-if="m.type==='image'" :src="m.url" alt="" />
-                      <div v-else class="video-placeholder" style="height:140px;">🎬 Video</div>
-                      <button class="img-remove" @click="deleteMedia(m)">✖</button>
+                      <div v-else class="video-placeholder" style="height:140px;"><i class="fa-solid fa-video"></i> Video</div>
+                      <button class="img-remove" @click="deleteMedia(m)"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                   </div>
                   <div v-else class="empty">
                     <div class="empty-inner">
-                      <div class="empty-icon">🖼️</div>
+                      <div class="empty-icon"><i class="fa-regular fa-image"></i></div>
                       <p class="muted">No images uploaded yet</p>
                       <p class="muted small">Save the car first, then upload media</p>
                     </div>
@@ -346,7 +346,7 @@
                   <h2 class="card-title">Vehicle Features</h2>
                   <div class="row-inline">
                     <input class="input" placeholder="e.g., Leather Seats, Sunroof, Navigation" v-model="newFeature" @keydown.enter.prevent="addFeature()" />
-                    <button class="btn" @click="addFeature">➕ Add</button>
+                    <button class="btn" @click="addFeature"><i class="fa-solid fa-plus"></i> Add</button>
                     <button class="btn outline" @click="persistFeatures" :disabled="!form.id || saving">Save features</button>
                   </div>
 
@@ -372,7 +372,7 @@
                     <input class="input" placeholder="Specification name (e.g., Engine)" v-model="newSpecKey" />
                     <div class="spec-value">
                       <input class="input" placeholder="Value (e.g., 3.0L V6)" v-model="newSpecValue" @keydown.enter.prevent="addSpecification()" />
-                      <button class="btn" @click="addSpecification">＋</button>
+                      <button class="btn" @click="addSpecification"><i class="fa-solid fa-plus"></i></button>
                       <button class="btn outline" @click="persistSpecs" :disabled="!form.id || saving">Save specs</button>
                     </div>
                   </div>
@@ -380,7 +380,7 @@
                   <div v-if="Object.keys(specs).length" class="spec-list">
                     <div v-for="(val, key) in specs" :key="key" class="spec-item">
                       <div class="spec-text"><span class="bold">{{ key }}:</span><span class="spec-val">{{ val }}</span></div>
-                      <button class="btn ghost" @click="removeSpecification(key)">✖</button>
+                      <button class="btn ghost" @click="removeSpecification(key)"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                   </div>
                   <div v-else class="empty">
@@ -408,13 +408,13 @@
 
                   <div v-if="(documents||[]).length" class="docs">
                     <div v-for="d in documents" :key="d.id" class="doc-item">
-                      <div class="doc-left"><span>📄</span> <span class="bold">{{ d.filename || d.url }}</span> <span v-if="d.doc_type" class="badge" style="margin-left:.5rem;">{{ d.doc_type }}</span></div>
+                      <div class="doc-left"><i class="fa-regular fa-file"></i> <span class="bold">{{ d.filename || d.url }}</span> <span v-if="d.doc_type" class="badge" style="margin-left:.5rem;">{{ d.doc_type }}</span></div>
                       <button class="btn ghost" style="color:#dc2626" @click="deleteDocument(d)">Remove</button>
                     </div>
                   </div>
                   <div v-else class="empty">
                     <div class="empty-inner">
-                      <div class="empty-icon">📄</div>
+                      <div class="empty-icon"><i class="fa-regular fa-file"></i></div>
                       <p class="muted">No documents uploaded yet</p>
                       <p class="muted small">Save the car first, then upload documents</p>
                     </div>
@@ -663,7 +663,7 @@ function logout() { try { window.history.length ? window.history.back() : (windo
 .sidebar { width: 260px; background:#fff; border-right:1px solid #e5e7eb; padding:1rem; position:sticky; top:64px; align-self:flex-start; height: calc(100vh - 64px); overflow:auto; }
 .nav { display:flex; flex-direction:column; gap:.5rem; margin-top:.5rem; }
 .nav-item { width:100%; text-align:left; display:flex; align-items:center; gap:.5rem; padding:.6rem .75rem; border-radius:.5rem; border:1px solid transparent; background:transparent; cursor:pointer; color:#0f172a; }
-.nav-item .icon { width:1.25rem; text-align:center; }
+.nav-item .icon { width:1.25rem; text-align:center; font-size: 1rem; }
 .nav-item:hover { background:#f8fafc; }
 .nav-item.active { background:#0b1b2b; color:#fff; }
 
@@ -695,7 +695,7 @@ function logout() { try { window.history.length ? window.history.back() : (windo
 .flex-between { display:flex; gap: 1rem; justify-content:space-between; align-items:center; }
 .search-wrap { position:relative; flex:1; max-width: 420px; }
 .search { padding-left: 2.1rem; }
-.search-icon { position:absolute; left:.65rem; top:50%; transform:translateY(-50%); color:#9ca3af; }
+.search-icon { position:absolute; left:.65rem; top:50%; transform:translateY(-50%); color:#9ca3af; font-size: 0.875rem; }
 .thumb { width:64px; height:64px; object-fit:cover; border-radius:.5rem; }
 .bold { font-weight: 600; }
 .row-actions { display:flex; gap:.25rem; justify-content:flex-end; }
@@ -723,7 +723,7 @@ function logout() { try { window.history.length ? window.history.back() : (windo
 
 .empty { border:2px dashed #cbd5e1; border-radius:.5rem; padding:1.25rem; text-align:center; background: #f8fafc; }
 .empty-inner { display:flex; align-items:center; justify-content:center; flex-direction:column; gap:.25rem; }
-.empty-icon { font-size: 2rem; }
+.empty-icon { font-size: 2rem; color: #9ca3af; }
 
 .chips { display:flex; gap:.5rem; flex-wrap:wrap; margin:.25rem 0; }
 .chip { background:#f3f4f6; border:1px solid #e5e7eb; padding:.25rem .5rem; border-radius:999px; display:inline-flex; align-items:center; gap:.25rem; }
