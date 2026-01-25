@@ -6,19 +6,17 @@
         <div class="brand">
           <div class="brand-row">
             <span class="cloud" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                <path d="M6 19a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.2A4.5 4.5 0 1 1 18 19H6z" />
-              </svg>
+              <i class="fa-solid fa-car"></i>
             </span>
             <h3>MK Automobile</h3>
           </div>
           <p class="muted">Premium quality used cars in Germany. Trusted by customers since 2016.</p>
           <div class="social">
             <a href="#" aria-label="Facebook" class="icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7h-2.5V12h2.5V9.7c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6V12h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
+              <i class="fa-brands fa-facebook"></i>
             </a>
             <a href="#" aria-label="Instagram" class="icon">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm6-1.2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+              <i class="fa-brands fa-instagram"></i>
             </a>
           </div>
         </div>
@@ -43,7 +41,7 @@
             <div class="input-group">
               <input id="newsletter" class="input" type="email" placeholder="Enter your email" v-model="email" required />
               <span class="adornment" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9 6 9-6"/><path d="M5 19h14a2 2 0 0 0 2-2V7"/></svg>
+                <i class="fa-solid fa-envelope"></i>
               </span>
               <button class="btn primary" :disabled="loading">{{ loading ? 'Submitting...' : 'Subscribe' }}</button>
             </div>
@@ -102,10 +100,12 @@ async function subscribe() {
 
 .brand-row { display:flex; align-items:center; gap:.5rem; margin-bottom:.25rem; }
 .cloud { color:#1d4ed8; background:#eff6ff; border:1px solid #e5e7eb; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; transition: transform .18s ease, box-shadow .18s ease; }
+.cloud i { font-size:18px; }
 .brand-row:hover .cloud { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(2,6,23,.06); }
 
 .social { display:flex; gap:.5rem; margin-top:.5rem; }
 .social .icon { width:32px; height:32px; border:1px solid #e5e7eb; border-radius:.5rem; display:grid; place-items:center; color:#475569; text-decoration:none; background:#fff; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease; }
+.social .icon i { font-size:18px; }
 .social .icon:hover { transform: translateY(-2px); border-color:#cbd5e1; background:#f8fafc; box-shadow: 0 4px 12px rgba(2,6,23,.08); }
 .social .icon:active { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(2,6,23,.08); }
 
@@ -124,6 +124,7 @@ async function subscribe() {
 .newsletter .input { flex:1; padding-right:36px; transition: border-color .16s ease; }
 .newsletter .input:focus { border-color:#cbd5e1; }
 .adornment { position:absolute; right:118px; width:26px; height:26px; top:50%; transform:translateY(-50%); display:grid; place-items:center; color:#94a3b8; }
+.adornment i { font-size:16px; }
 
 .bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #e5e7eb; margin-top:1.25rem; padding-top:1rem; color:#64748b; }
 .legal { display:flex; gap:1rem; }

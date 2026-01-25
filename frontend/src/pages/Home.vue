@@ -20,25 +20,25 @@
               <ul class="specs">
                 <li v-if="c.year">
                   <span class="ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <i class="fa-regular fa-calendar"></i>
                   </span>
                   <span>{{ c.year }}</span>
                 </li>
                 <li v-if="c.mileage">
                   <span class="ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 7v5l3 2"/></svg>
+                    <i class="fa-solid fa-gauge-high"></i>
                   </span>
                   <span>{{ km(c.mileage) }}</span>
                 </li>
                 <li v-if="c.fuel_type">
                   <span class="ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 10h-4"/></svg>
+                    <i class="fa-solid fa-gas-pump"></i>
                   </span>
                   <span>{{ c.fuel_type }}</span>
                 </li>
                 <li v-if="hp(c)">
                   <span class="ico" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+                    <i class="fa-solid fa-bolt"></i>
                   </span>
                   <span>{{ hp(c) }} HP</span>
                 </li>
@@ -62,7 +62,7 @@
       <div class="features">
         <article class="feature">
           <div class="f-ico">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-7 10-7 10S5 17 5 12V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+            <i class="fa-solid fa-shield-halved"></i>
           </div>
           <div>
             <h4>{{ $t('home.qualityTitle') }}</h4>
@@ -71,7 +71,7 @@
         </article>
         <article class="feature">
           <div class="f-ico">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M5 7V5a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2"/></svg>
+            <i class="fa-solid fa-truck-fast"></i>
           </div>
           <div>
             <h4>{{ $t('home.deliveryTitle') }}</h4>
@@ -80,7 +80,7 @@
         </article>
         <article class="feature">
           <div class="f-ico">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M8 16h6M8 8h10"/></svg>
+            <i class="fa-solid fa-euro-sign"></i>
           </div>
           <div>
             <h4>{{ $t('home.pricesTitle') }}</h4>
@@ -89,7 +89,7 @@
         </article>
         <article class="feature">
           <div class="f-ico">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 17l-5.5 3 1.5-6-4.5-4 6-.5L12 3l2.5 6 6 .5-4.5 4 1.5 6z"/></svg>
+            <i class="fa-solid fa-star"></i>
           </div>
           <div>
             <h4>{{ $t('home.serviceTitle') }}</h4>
@@ -108,27 +108,61 @@
         </div>
         <router-link class="btn outline" to="/cars">
           {{ $t('home.viewAllVehicles') }}
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:.25rem"><path d="M9 18l6-6-6-6"/></svg>
+          <i class="fa-solid fa-chevron-right" style="margin-left:.25rem"></i>
         </router-link>
       </div>
 
       <div class="cards-rail">
-        <article v-for="(c, i) in cards.slice(0, 3)" :key="c.id || i" class="car-card card">
+        <div v-for="(c, i) in cards.slice(0, 3)" :key="c.id || i" class="car-card card">
           <router-link :to="`/cars/${c.id}`" class="thumb">
             <img :src="firstImage(c)" :alt="c.title" loading="lazy" />
-            <span v-if="c.body_type" class="chip">{{ c.body_type }}</span>
           </router-link>
           <div class="card-body">
-            <h3 class="title">{{ c.title }}</h3>
-            <div class="price">{{ formatPrice(c.price) }}</div>
-            <div class="spec-line">
-              <span class="s"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 7v5l3 2"/></svg>{{ km(c.mileage) }}</span>
-              <span class="s" v-if="c.transmission"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3v18M6 12h12M18 3v18"/></svg>{{ c.transmission }}</span>
-              <span class="s" v-if="c.fuel_type"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/></svg>{{ c.fuel_type }}</span>
-              <span class="s" v-if="hp(c)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18"/><path d="M12 3v18"/></svg>{{ hp(c) }} HP</span>
+            <div class="card-content">
+              <h3 class="title">{{ c.title }}</h3>
+              <div class="details-row">
+                <span class="detail-item">
+                  <i class="fa-regular fa-calendar"></i>
+                  {{ c.year }}
+                </span>
+                <span class="detail-item">
+                  <i class="fa-solid fa-gauge-high"></i>
+                  {{ km(c.mileage) }}
+                </span>
+              </div>
+              <div class="details-row">
+                <span class="detail-item">
+                  <i class="fa-solid fa-gas-pump"></i>
+                  {{ c.fuel_type }}
+                </span>
+                <span class="detail-item">
+                  <i class="fa-solid fa-gears"></i>
+                  {{ c.transmission }}
+                </span>
+              </div>
+              <div class="details-row" v-if="hp(c)">
+                <span class="detail-item">
+                  <i class="fa-solid fa-bolt"></i>
+                  {{ hp(c) }} HP
+                </span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button
+                class="favorite-btn"
+                :class="{ 'is-favorite': favorites.has(c.id) }"
+                @click="toggleFavorite(c.id)"
+                :disabled="!authStore.isAuthenticated"
+                :title="authStore.isAuthenticated ? (favorites.has(c.id) ? 'Remove from favorites' : 'Add to favorites') : 'Login to add favorites'"
+              >
+                <i class="fa-heart" :class="favorites.has(c.id) ? 'fa-solid' : 'fa-regular'"></i>
+              </button>
+              <span class="detail-item price">
+                {{ formatPrice(c.price) }}
+              </span>
             </div>
           </div>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -148,16 +182,19 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { CarsAPI } from '../api.js';
+import { CarsAPI, FavoritesAPI } from '../api.js';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { useAuthStore } from '../stores/auth.js';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
 // modules are passed to Swiper via :modules prop on the component
 
+const authStore = useAuthStore();
 const latest = ref([]);
 const hero = ref([]);
+const favorites = ref(new Set());
 
 // Fallback slides so the hero is visible even before DB data exists
 const fallback = [
@@ -195,6 +232,37 @@ function firstImage(c) {
   return img ? img.url : 'https://picsum.photos/seed/car-hero/1600/900';
 }
 
+async function loadFavorites() {
+  if (!authStore.isAuthenticated) {
+    favorites.value = new Set();
+    return;
+  }
+  try {
+    const data = await FavoritesAPI.list();
+    favorites.value = new Set(data.items.map(f => f.id));
+  } catch (err) {
+    console.error('Failed to load favorites:', err);
+    favorites.value = new Set();
+  }
+}
+
+async function toggleFavorite(carId) {
+  if (!authStore.isAuthenticated) return;
+  
+  const isFavorite = favorites.value.has(carId);
+  try {
+    if (isFavorite) {
+      await FavoritesAPI.remove(carId);
+      favorites.value.delete(carId);
+    } else {
+      await FavoritesAPI.add(carId);
+      favorites.value.add(carId);
+    }
+  } catch (err) {
+    console.error('Failed to toggle favorite:', err);
+  }
+}
+
 onMounted(async () => {
   try {
     // Latest arrivals for cards
@@ -215,6 +283,9 @@ onMounted(async () => {
   } catch (e) {
     // ignore; UI will simply render placeholders
   }
+  
+  // Load favorites
+  loadFavorites();
 });
 </script>
 
@@ -245,7 +316,7 @@ onMounted(async () => {
 .feature { display:flex; gap:.75rem; padding:1rem; background:#fff; border:1px solid #e5e7eb; border-radius:1rem; box-shadow: 0 6px 22px rgba(2,6,23,.06); }
 /* Icon sizing aligned with About page (40px box, 20px glyph) */
 .f-ico { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; color:#1d4ed8; background:#eff6ff; border:1px solid #dbeafe; flex:0 0 40px; }
-.f-ico :is(svg) { width:20px; height:20px; }
+.f-ico i { font-size:20px; }
 .feature h4 { margin:.25rem 0 .15rem; }
 
 /***** ARRIVALS *****/
@@ -255,13 +326,23 @@ onMounted(async () => {
 .arr-title { margin:0; }
 .cards-rail { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .9rem; }
 .car-card { border-radius:1rem; box-shadow: 0 10px 30px rgba(2,6,23,.08); overflow:hidden; }
-.thumb { position:relative; display:block; aspect-ratio: 16/9; background:#f1f5f9; }
-.thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-.chip { position:absolute; right:.5rem; top:.5rem; background:#f8fafc; color:#475569; border:1px solid #e2e8f0; border-radius:999px; padding:.2rem .55rem; font-size:.8rem; }
-.title { margin:.25rem 0 .35rem; }
-.price { color:#1d4ed8; font-weight:500; }
-.spec-line { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:.4rem .75rem; margin-top:.35rem; color:#475569; font-size:.95rem; }
-.s { display:inline-flex; gap:.35rem; align-items:center; }
+.car-card .thumb { display: block; text-decoration: none; overflow: hidden; }
+.car-card .thumb img { width:100%; height: 190px; object-fit: cover; display:block; transition: transform .2s ease; }
+.car-card .thumb:hover img { transform: scale(1.05); }
+.car-card .card-body { display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; }
+.car-card .card-content { display: flex; flex-direction: column; gap: .5rem; }
+.car-card .card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: .5rem; border-top: 1px solid #e5e7eb; margin-top: .5rem; }
+.car-card .favorite-btn { background: none; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: transform .2s ease; }
+.car-card .favorite-btn:disabled { cursor: not-allowed; opacity: 0.5; }
+.car-card .favorite-btn:not(:disabled):hover { transform: scale(1.15); }
+.car-card .favorite-btn i { font-size: 1.1rem; color: #94a3b8; transition: color .2s ease; }
+.car-card .favorite-btn:not(:disabled):hover i { color: #ef4444; }
+.car-card .favorite-btn.is-favorite i { color: #ef4444; }
+.car-card .title { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+.car-card .details-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 1.5rem; }
+.car-card .detail-item { display: inline-flex; align-items: center; gap: .4rem; color: #64748b; font-size: .875rem; line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.car-card .detail-item i { flex-shrink: 0; color: #94a3b8; font-size: .75rem; width: 14px; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
+.car-card .detail-item.price { font-weight: 600; color: var(--brand); font-size: 1.1rem; }
 
 /***** CTA BAND *****/
 .cta-band { width:100vw; margin-left: calc(50% - 50vw); margin-top: 1.6rem; background:#1d4ed8; color:#fff; padding: 2rem 0; }
@@ -275,7 +356,7 @@ onMounted(async () => {
   .features { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .cards-rail { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .f-ico { width:36px; height:36px; flex-basis:36px; }
-  .f-ico :is(svg) { width:18px; height:18px; }
+  .f-ico i { font-size:18px; }
   .hero-swiper { height: 520px; }
   .hero-title { font-size: 40px; }
 }
@@ -283,7 +364,26 @@ onMounted(async () => {
   .features { grid-template-columns: 1fr; }
   .cards-rail { grid-template-columns: 1fr; }
   .f-ico { width:34px; height:34px; flex-basis:34px; }
-  .f-ico :is(svg) { width:18px; height:18px; }
+  .f-ico i { font-size:18px; }
   .hero-title { font-size: 32px; }
+  
+  .car-card .card-content { gap: .4rem; }
+  .car-card .details-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .4rem .5rem;
+    min-height: auto;
+  }
+  .car-card .detail-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: normal;
+    font-size: .85rem;
+    line-height: 1.5;
+  }
+  .car-card .title {
+    font-size: 1rem;
+    margin-bottom: .2rem;
+  }
 }
 </style>

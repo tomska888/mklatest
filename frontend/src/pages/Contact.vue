@@ -18,7 +18,7 @@
                   <div class="field">
                     <input class="input" type="text" v-model="form.name" placeholder="Your name" required />
                     <span class="addon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M5 8l7-5 7 5"/></svg>
+                      <i class="fa-solid fa-user"></i>
                     </span>
                   </div>
                 </div>
@@ -27,7 +27,7 @@
                   <div class="field">
                     <input class="input" type="email" v-model="form.email" placeholder="your@email.com" required />
                     <span class="addon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l9 6 9-6"/><path d="M5 19h14a2 2 0 0 0 2-2V7"/></svg>
+                      <i class="fa-solid fa-envelope"></i>
                     </span>
                   </div>
                 </div>
@@ -39,7 +39,7 @@
                   <div class="field">
                     <input class="input" type="tel" v-model="form.phone" placeholder="+49 ..." />
                     <span class="addon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.09 4.2 2 2 0 014.11 2h3a2 2 0 012 1.72 12.7 12.7 0 00.7 2.81 2 2 0 01-.45 2l-1.27 1.27a16 16 0 006 6l1.27-1.27a2 2 0 012-.45 12.7 12.7 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                      <i class="fa-solid fa-phone"></i>
                     </span>
                   </div>
                 </div>
@@ -48,7 +48,7 @@
                   <div class="field">
                     <input class="input" type="text" v-model="form.subject" placeholder="What's this about?" />
                     <span class="addon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg>
+                      <i class="fa-solid fa-tag"></i>
                     </span>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
               </div>
 
               <button class="btn primary send-btn" type="submit">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+                <i class="fa-solid fa-paper-plane"></i>
                 Send Message
               </button>
             </form>
@@ -74,10 +74,7 @@
           <div class="info-card card">
             <div class="card-body info">
               <div class="ico marker">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22s7-6 7-12a7 7 0 10-14 0c0 6 7 12 7 12z" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/>
-                </svg>
+                <i class="fa-solid fa-location-dot"></i>
               </div>
               <div>
                 <div class="info-title">Address</div>
@@ -91,9 +88,7 @@
           <div class="info-card card">
             <div class="card-body info">
               <div class="ico phone">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.09 4.2 2 2 0 014.11 2h3a2 2 0 012 1.72 12.7 12.7 0 00.7 2.81 2 2 0 01-.45 2l-1.27 1.27a16 16 0 006 6l1.27-1.27a2 2 0 012-.45 12.7 12.7 0 002.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" fill="none"/>
-                </svg>
+                <i class="fa-solid fa-phone"></i>
               </div>
               <div>
                 <div class="info-title">Phone</div>
@@ -105,10 +100,7 @@
           <div class="info-card card">
             <div class="card-body info">
               <div class="ico mail">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2" fill="none"/>
-                </svg>
+                <i class="fa-solid fa-envelope"></i>
               </div>
               <div>
                 <div class="info-title">Email</div>
@@ -120,10 +112,7 @@
           <div class="info-card card">
             <div class="card-body info">
               <div class="ico clock">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/>
-                  <path d="M12 7v6l4 2" stroke="currentColor" stroke-width="2" fill="none"/>
-                </svg>
+                <i class="fa-solid fa-clock"></i>
               </div>
               <div>
                 <div class="info-title">Opening Hours</div>
@@ -199,6 +188,7 @@ onMounted(async () => {
 .aside { display:grid; gap:.75rem; }
 .info { display:flex; gap:.75rem; align-items:flex-start; }
 .ico { width:40px; height:40px; border-radius:12px; display:grid; place-items:center; color:#1d4ed8; background:#eff6ff; border:1px solid #e5e7eb; }
+.ico i { font-size:22px; }
 .info-title { font-weight:700; margin-bottom:.25rem; }
 .info-text, .info-text a { color:#334155; text-decoration:none; }
 
@@ -212,8 +202,8 @@ onMounted(async () => {
 .field { position:relative; }
 .field .input { padding-right: 40px; }
 .addon { position:absolute; right:8px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:10px; background:#fff; color:#14b8a6; border:1px solid #e2e8f0; display:grid; place-items:center; box-shadow:0 1px 1px rgba(0,0,0,.04); }
+.addon i { font-size:16px; }
 
 /* Button tweaks */
 .send-btn { margin-top:.5rem; }
-.icon { width:18px; height:18px; }
 </style>

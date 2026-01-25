@@ -46,7 +46,7 @@
         <div class="cards">
           <article class="value-card">
             <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c3 4 3 14 0 18"/></svg>
+              <i class="fa-solid fa-globe"></i>
             </div>
             <div>
               <h4>Transparency</h4>
@@ -55,7 +55,7 @@
           </article>
           <article class="value-card">
             <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/></svg>
+              <i class="fa-solid fa-user-group"></i>
             </div>
             <div>
               <h4>Customer First</h4>
@@ -64,7 +64,7 @@
           </article>
           <article class="value-card">
             <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-7 10-7 10S5 17 5 12V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              <i class="fa-solid fa-shield-halved"></i>
             </div>
             <div>
               <h4>Quality</h4>
@@ -73,7 +73,7 @@
           </article>
           <article class="value-card">
             <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="11" rx="2"/><path d="M7 9V7a5 5 0 0 1 10 0v2"/></svg>
+              <i class="fa-solid fa-headset"></i>
             </div>
             <div>
               <h4>Service</h4>
@@ -90,25 +90,25 @@
           <ul class="ticks">
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Thorough vehicle inspection
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Competitive and transparent pricing
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Financing assistance
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Trade-in accepted
             </li>
@@ -116,25 +116,25 @@
           <ul class="ticks">
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Complete vehicle history reports
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Warranty options available
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               Nationwide delivery
             </li>
             <li>
               <span class="tick-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" class="tick-svg"><circle cx="10" cy="10" r="8"/><path d="M6.5 10.5 9 13 14 8"/></svg>
+                <i class="fa-solid fa-circle-check"></i>
               </span>
               After-sales support
             </li>
@@ -182,7 +182,7 @@
 .cards { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .75rem; }
 .value-card { display:flex; align-items:flex-start; gap:.75rem; background:#fff; border:1px solid #e5e7eb; border-radius:.75rem; padding:1rem; }
 .value-card .ico { width:var(--val-ico); height:var(--val-ico); flex:0 0 var(--val-ico); border-radius:12px; display:grid; place-items:center; color:#2563eb; background:#eff6ff; border:1px solid #dbeafe; box-shadow: inset 0 1px 0 rgba(37,99,235,.06); }
-.value-card .ico svg { width:var(--val-ico-icon); height:var(--val-ico-icon); flex:none; }
+.value-card .ico i { font-size:var(--val-ico-icon); flex:none; }
 .value-card h4 { margin:.1rem 0 .15rem; }
 .value-card p { color:#334155; margin:0; }
 
@@ -192,7 +192,7 @@
 .ticks { list-style:none; padding:0; margin:0; display:grid; gap:.55rem; }
 .ticks li { display:flex; align-items:center; gap:.55rem; color:#0f172a; }
 .tick-icon { width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:#eff6ff; color:#1d4ed8; border:1px solid #e5e7eb; flex:0 0 28px; }
-.tick-svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.tick-icon i { font-size:18px; }
 
 /* CTA */
 .cta { text-align:center; margin: 1.75rem 0 .5rem; }

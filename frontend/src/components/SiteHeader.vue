@@ -4,9 +4,7 @@
       <!-- Brand -->
       <router-link class="brand" to="/">
         <span class="cloud" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M6 19a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.2A4.5 4.5 0 1 1 18 19H6z" />
-          </svg>
+          <i class="fa-solid fa-cloud"></i>
         </span>
         <span class="brand-name">MK Automobile</span>
       </router-link>
@@ -23,7 +21,7 @@
       <div class="actions desktop-actions">
         <div class="lang" ref="langEl">
           <button class="icon-btn" :title="'Language'" aria-label="Language" @click.stop="langOpen = !langOpen">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M2.5 12h19"/><path d="M12 3c3 4 3 14 0 18"/></svg>
+            <i class="fa-solid fa-globe"></i>
           </button>
           <div v-if="langOpen" class="menu">
             <button class="menu-item" @click.stop="pickLocale('en')">English</button>
@@ -35,17 +33,8 @@
         </div>
 
         <button class="icon-btn" :title="theme.mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'" aria-label="Toggle theme" @click="theme.toggle()">
-          <template v-if="theme.mode === 'dark'">
-            <!-- Moon -->
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          </template>
-          <template v-else>
-            <!-- Sun (fixed) -->
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/>
-              <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-            </svg>
-          </template>
+          <i v-if="theme.mode === 'dark'" class="fa-solid fa-moon"></i>
+          <i v-else class="fa-solid fa-sun"></i>
         </button>
         <template v-if="auth.user">
           <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="btn small" to="/admin">Admin</router-link>
@@ -60,7 +49,7 @@
         </template>
         <template v-else>
           <router-link class="btn small primary" to="/login">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <i class="fa-solid fa-user" aria-hidden="true"></i>
             <span>{{ $t('auth.login') }}</span>
           </router-link>
         </template>
@@ -96,15 +85,8 @@
         <div class="mobile-settings-column">
           <div class="mobile-section-label">Theme</div>
           <button class="mobile-theme-icon-btn" @click="theme.toggle()" :title="theme.mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'">
-            <template v-if="theme.mode === 'dark'">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            </template>
-            <template v-else>
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-              </svg>
-            </template>
+            <i v-if="theme.mode === 'dark'" class="fa-solid fa-moon"></i>
+            <i v-else class="fa-solid fa-sun"></i>
           </button>
         </div>
 
@@ -128,22 +110,22 @@
         <template v-if="auth.user">
           <div class="mobile-auth-row">
             <router-link class="mobile-btn" to="/profile" @click="open = false">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <i class="fa-solid fa-user"></i>
               <span>{{ $t('auth.profile') }}</span>
             </router-link>
             <router-link v-if="['owner','admin','employee'].includes(auth.user.role)" class="mobile-btn" to="/admin" @click="open = false">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></svg>
+              <i class="fa-solid fa-shield-halved"></i>
               <span>Admin</span>
             </router-link>
             <button class="mobile-btn danger" @click="logout">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+              <i class="fa-solid fa-right-from-bracket"></i>
               <span>{{ $t('auth.logout') }}</span>
             </button>
           </div>
         </template>
         <template v-else>
           <router-link class="mobile-btn primary" to="/login" @click="open = false">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <i class="fa-solid fa-user"></i>
             <span>{{ $t('auth.login') }}</span>
           </router-link>
         </template>
@@ -240,7 +222,7 @@ function logout() {
 /* Brand */
 .brand { display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; color:#0f172a; font-weight:700; }
 .brand:hover .brand-name { color:#0b1b2b; }
-.cloud { color:#1d4ed8; background:#eff6ff; border:1px solid #e5e7eb; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; transition: transform .18s ease, box-shadow .18s ease; }
+.cloud { color:#1d4ed8; background:#eff6ff; border:1px solid #e5e7eb; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; transition: transform .18s ease, box-shadow .18s ease; font-size: 16px; }
 .brand:hover .cloud { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(2,6,23,.06); }
 .brand-name { font-weight:700; transition:color .18s ease; }
 
@@ -254,7 +236,7 @@ function logout() {
 
 /* Actions */
 .actions { display:flex; align-items:center; gap:.5rem; }
-.icon-btn { width:30px; height:30px; display:grid; place-items:center; border:1px solid #e5e7eb; border-radius:.5rem; background:#fff; color:#475569; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease; }
+.icon-btn { width:30px; height:30px; display:grid; place-items:center; border:1px solid #e5e7eb; border-radius:.5rem; background:#fff; color:#475569; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease; font-size: 14px; }
 .icon-btn:hover { transform: translateY(-1px); border-color:#cbd5e1; background:#f8fafc; box-shadow: 0 2px 6px rgba(2,6,23,.06); }
 .icon-btn:active { transform: translateY(0); box-shadow: inset 0 1px 3px rgba(2,6,23,.08); }
 
@@ -262,6 +244,7 @@ function logout() {
 .lang .menu { position:absolute; right:0; top:110%; background:#fff; border:1px solid #e5e7eb; border-radius:.5rem; box-shadow: 0 12px 24px rgba(2,6,23,.10); padding:.25rem; min-width:160px; z-index:60; }
 
 .btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease; display:inline-flex; align-items:center; gap:.35rem; text-decoration:none; }
+.btn.small i { font-size: 14px; }
 .btn.small.primary { background:#2563eb; color:#fff; }
 .btn.small.primary:hover { background:#1d4ed8; transform: translateY(-1px); }
 .btn.small.outline { background:#fff; color:#0f172a; border-color:#cbd5e1; }
@@ -382,6 +365,7 @@ function logout() {
   cursor: pointer;
   transition: background-color .18s ease, color .18s ease;
 }
+.mobile-btn i { font-size: 16px; }
 
 .mobile-btn:hover {
   background: #f8fafc;
@@ -440,6 +424,7 @@ function logout() {
   color: #64748b;
   cursor: pointer;
   transition: all .18s ease;
+  font-size: 18px;
 }
 
 .mobile-theme-icon-btn:hover {

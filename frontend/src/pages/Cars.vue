@@ -6,14 +6,7 @@
       
       <!-- Mobile Filter Toggle Button -->
       <button class="mobile-filter-toggle btn outline" @click="showMobileFilters = true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <circle cx="7" cy="7" r="2" fill="currentColor"/>
-          <circle cx="17" cy="12" r="2" fill="currentColor"/>
-          <circle cx="12" cy="17" r="2" fill="currentColor"/>
-        </svg>
+        <i class="fa-solid fa-sliders"></i>
         <span>Filters</span>
         <span class="badge" v-if="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
       </button>
@@ -24,20 +17,13 @@
       <aside class="filters card" :class="{ 'mobile-open': showMobileFilters }">
         <header class="filters-head">
         <div class="title">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 7H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="7" cy="7" r="2" fill="currentColor"/>
-            <circle cx="17" cy="12" r="2" fill="currentColor"/>
-            <circle cx="12" cy="17" r="2" fill="currentColor"/>
-          </svg>
+          <i class="fa-solid fa-sliders"></i>
           <span>Filters</span>
         </div>
         <div class="filters-actions">
           <button class="btn small outline clear-btn" @click="resetFilters">Clear</button>
           <button class="btn small ghost mobile-close" @click="showMobileFilters = false">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
       </header>
@@ -46,7 +32,7 @@
       <section class="filter-group" :class="{ collapsed: !open.makeModel }">
         <header class="group-head" @click="open.makeModel = !open.makeModel">
           <span>Make & Model</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body">
           <label class="label">Make</label>
@@ -73,7 +59,7 @@
       <section class="filter-group" :class="{ collapsed: !open.yearRange }">
         <header class="group-head" @click="open.yearRange = !open.yearRange">
           <span>Year Range</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body two">
           <div>
@@ -103,7 +89,7 @@
       <section class="filter-group" :class="{ collapsed: !open.priceRange }">
         <header class="group-head" @click="open.priceRange = !open.priceRange">
           <span>Price Range</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body two">
           <div>
@@ -121,7 +107,7 @@
       <section class="filter-group" :class="{ collapsed: !open.mileage }">
         <header class="group-head" @click="open.mileage = !open.mileage">
           <span>Mileage</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body">
           <label class="label">Max Mileage (km)</label>
@@ -133,7 +119,7 @@
       <section class="filter-group" :class="{ collapsed: !open.fuel }">
         <header class="group-head" @click="open.fuel = !open.fuel">
           <span>Fuel Type</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body">
           <CustomSelect
@@ -150,7 +136,7 @@
       <section class="filter-group" :class="{ collapsed: !open.transmission }">
         <header class="group-head" @click="open.transmission = !open.transmission">
           <span>Transmission</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body">
           <CustomSelect
@@ -167,7 +153,7 @@
       <section class="filter-group" :class="{ collapsed: !open.bodyType }">
         <header class="group-head" @click="open.bodyType = !open.bodyType">
           <span>Body Type</span>
-          <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 15 6-6 6 6"/></svg>
+          <i class="fa-solid fa-chevron-up chev"></i>
         </header>
         <div class="group-body">
           <CustomSelect
@@ -192,13 +178,13 @@
       <div class="toolbar">
         <div class="muted">Showing {{ total }} vehicle(s)</div>
         <div class="search-wrap">
-          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <i class="fa-solid fa-magnifying-glass icon"></i>
           <input class="search" v-model="filters.q" @keyup.enter="applyFilters" placeholder="Search" />
         </div>
         <div class="right-actions">
           <CustomSelect v-model="filters.sort" :options="sortOptions" placeholder="Newest First" @change="applyFilters">
             <template #icon>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h12M3 12h8M3 18h4"/></svg>
+              <i class="fa-solid fa-arrow-down-short-wide"></i>
             </template>
           </CustomSelect>
         </div>
