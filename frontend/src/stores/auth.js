@@ -24,6 +24,9 @@ export const useAuthStore = defineStore('auth', {
             user: token ? parseJwt(token) : null,
         };
     },
+    getters: {
+        isAuthenticated: (state) => !!state.token && !!state.user,
+    },
     actions: {
         setToken(token) {
             this.token = token;
