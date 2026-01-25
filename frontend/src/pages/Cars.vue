@@ -412,7 +412,7 @@ async function loadFavorites() {
   }
   try {
     const data = await FavoritesAPI.list();
-    favorites.value = new Set(data.map(f => f.car_id));
+    favorites.value = new Set(data.items.map(f => f.car_id));
   } catch (err) {
     console.error('Failed to load favorites:', err);
     favorites.value = new Set();
