@@ -146,7 +146,7 @@
             <tr v-else-if="!cars.length">
               <td colspan="7" class="empty-cell">
                 <i class="fa-solid fa-inbox"></i>
-                <span>No vehicles found</span>
+                <span>No cars found</span>
               </td>
             </tr>
           </tbody>
@@ -460,9 +460,9 @@ function formatNumber(v) {
   line-height: 1;
 }
 .loading-cell, .empty-cell {
-  text-align: center;
+  text-align: center !important;
   padding: 3rem 1.25rem !important;
-  color: #64748b;
+  color: #64748b !important;
 }
 .loading-cell {
   display: flex;
@@ -481,15 +481,16 @@ function formatNumber(v) {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-.empty-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
 .empty-cell i {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #cbd5e1;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.empty-cell span {
+  display: block;
+  font-size: 0.9375rem;
 }
 
 /* Toggle Switch */

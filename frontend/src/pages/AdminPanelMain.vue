@@ -279,54 +279,7 @@ const avgPriceEUR = computed(() => {
 function percent(part, total) { if (!total) return 0; return Math.round((part / total) * 100); }
 // Cars state backed by API
 const carsState = reactive({
-  items: [
-    // Hardcoded example car for demonstration
-    {
-      id: 1,
-      title: '2021 Škoda Octavia Combi Style',
-      make: 'Škoda',
-      model: 'Octavia',
-      year: 2021,
-      price: 24500,
-      mileage: 45000,
-      fuel_type: 'Diesel',
-      transmission: 'Automatic',
-      body_type: 'Wagon',
-      color: 'Silver',
-      vin: 'TMBJB7NE0L2123456',
-      description: 'Well-maintained family wagon with full service history. Perfect condition, one owner. Features premium sound system and panoramic sunroof.',
-      featured: 1,
-      published: 1,
-      created_at: '2024-01-15 10:30:00',
-      media: [
-        { id: 1, type: 'image', url: '/skoda_test1.jpg' },
-        { id: 2, type: 'image', url: '/skoda-test2.jpg' }
-      ],
-      features: [
-        'Panoramic Sunroof',
-        'Navigation System',
-        'Leather Seats',
-        'Parking Sensors',
-        'Cruise Control',
-        'Climate Control',
-        'LED Headlights',
-        'Apple CarPlay'
-      ],
-      specs: {
-        'Engine': '2.0 TDI',
-        'Power': '150 HP',
-        'Torque': '340 Nm',
-        'Fuel Economy': '4.5 L/100km',
-        'CO2 Emissions': '118 g/km',
-        'Top Speed': '220 km/h',
-        '0-100 km/h': '8.9 seconds',
-        'Drive Type': 'Front-wheel drive',
-        'Doors': '5',
-        'Seats': '5',
-        'Trunk Capacity': '640 L'
-      }
-    }
-  ],
+  items: [],
   page: 1,
   totalPages: 1,
   q: ''
@@ -340,14 +293,11 @@ async function loadCars() {
   try {
     loadingCars.value = true;
     const data = await CarsAPI.list({ q: carsState.q, page: carsState.page, pageSize: 12, sort: 'created_at_desc' });
-    // Keep hardcoded example car if no real cars exist (for testing)
-    if (data.items && data.items.length > 0) {
-      carsState.items = data.items;
-    }
-    // If API returns data, use it; otherwise keep the hardcoded example
+    // Use data from API
+    carsState.items = data.items || [];
     carsState.totalPages = data.totalPages || 1;
     // Dashboard quick stats
-    totals.cars = data.total || carsState.items.length;
+    totals.cars = data.total || 0;
     totals.featured = carsState.items.filter(x => !!x.featured).length;
     // Types breakdown
     const counts = {};
