@@ -24,8 +24,8 @@ if (!process.env.DATABASE_HOST) {
     process.env.COMPANY_ADDRESS = 'Döngesbreite 4, 34471 Volkmarsen, Germany';
     process.env.COMPANY_PHONE = '+49 5693 9180835';
     process.env.COMPANY_EMAIL = 'mk.automobile.de@gmail.com';
-    process.env.COMPANY_LAT = '52.5200';
-    process.env.COMPANY_LNG = '13.4050';
+    process.env.COMPANY_LAT = '51.400069';
+    process.env.COMPANY_LNG = '9.115457';
     process.env.UPLOADS_BASE_PATH = '/api/uploads';
 }
 

@@ -116,7 +116,7 @@ router.get('/', async (req, res) => {
         const total = totalRows[0]?.cnt || 0;
 
         const rows = await query(
-            `SELECT c.id, c.title, c.make, c.model, c.year, c.price, c.mileage, c.fuel_type, c.transmission, c.body_type, c.color, c.featured, c.created_at,
+            `SELECT c.id, c.title, c.make, c.model, c.year, c.price, c.mileage, c.fuel_type, c.transmission, c.body_type, c.color, c.featured, c.published, c.created_at,
                     (SELECT url FROM car_media m WHERE m.car_id = c.id AND m.type = 'image' ORDER BY m.id ASC LIMIT 1) AS thumb_url
                FROM cars c ${where} ${sort} LIMIT ? OFFSET ?`,
             [...params, pageSize, offset]
@@ -136,7 +136,7 @@ router.get('/:id', async (req, res) => {
         const cars = await query('SELECT * FROM cars WHERE id = ?', [id]);
         if (!cars.length) return res.status(404).json({ error: 'Not found' });
         const car = cars[0];
-        const media = await query('SELECT id, type, url, filename FROM car_media WHERE car_id = ? ORDER BY id ASC', [id]);
+        const media = await query('SELECT id, type, url, filename, display_order FROM car_media WHERE car_id = ? ORDER BY display_order ASC, id ASC', [id]);
         const featuresRows = await query('SELECT name FROM car_features WHERE car_id = ? ORDER BY name ASC', [id]);
         const specsRows = await query('SELECT `key`, `value` FROM car_specs WHERE car_id = ? ORDER BY id ASC', [id]);
         const docsRows = await query('SELECT id, url, filename, doc_type FROM car_documents WHERE car_id = ? ORDER BY id ASC', [id]);
@@ -210,10 +210,39 @@ router.patch('/:id/feature', authMiddleware, requireRoles(['owner', 'admin', 'em
     try {
         const id = parseInt(req.params.id);
         const featured = req.body?.featured ? 1 : 0;
+        
+        // Check if car is published before allowing it to be featured
+        if (featured) {
+            const cars = await query('SELECT published FROM cars WHERE id = ?', [id]);
+            if (cars.length && !cars[0].published) {
+                return res.status(400).json({ error: 'Cannot feature an unpublished vehicle' });
+            }
+        }
+        
         await query('UPDATE cars SET featured = ? WHERE id = ?', [featured, id]);
         res.json({ ok: true, featured });
     } catch (err) {
         logError('[cars:feature]', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// PATCH /api/cars/:id/publish
+router.patch('/:id/publish', authMiddleware, requireRoles(['owner', 'admin', 'employee']), async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const published = req.body?.published ? 1 : 0;
+        
+        // If unpublishing, also remove featured status
+        if (!published) {
+            await query('UPDATE cars SET published = ?, featured = 0 WHERE id = ?', [published, id]);
+        } else {
+            await query('UPDATE cars SET published = ? WHERE id = ?', [published, id]);
+        }
+        
+        res.json({ ok: true, published });
+    } catch (err) {
+        logError('[cars:publish]', err);
         res.status(500).json({ error: 'Server error' });
     }
 });
@@ -223,21 +252,48 @@ router.post('/:id/media', authMiddleware, requireRoles(['owner', 'admin', 'emplo
     try {
         const id = parseInt(req.params.id);
         const files = req.files || [];
+        
+        // Get the current max display_order for this car
+        const maxOrderResult = await query('SELECT MAX(display_order) as max_order FROM car_media WHERE car_id = ?', [id]);
+        let nextOrder = (maxOrderResult[0]?.max_order || 0) + 1;
+        
         const values = [];
         for (const f of files) {
             const isVideo = (f.mimetype || '').startsWith('video/');
             const type = isVideo ? 'video' : 'image';
             const url = `${uploadsBasePath}/${f.filename}`;
-            values.push([id, type, url, f.originalname || null]);
+            values.push([id, type, url, f.originalname || null, nextOrder++]);
         }
 
         for (const v of values) {
-            await query('INSERT INTO car_media (car_id, type, url, filename) VALUES (?, ?, ?, ?)', v);
+            await query('INSERT INTO car_media (car_id, type, url, filename, display_order) VALUES (?, ?, ?, ?, ?)', v);
         }
 
         res.status(201).json({ uploaded: values.length });
     } catch (err) {
         logError('[cars:upload]', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// PUT /api/cars/:id/media/reorder - Update display order of media
+router.put('/:id/media/reorder', authMiddleware, requireRoles(['owner', 'admin', 'employee']), async (req, res) => {
+    try {
+        const id = parseInt(req.params.id);
+        const { order } = req.body; // Array of media IDs in desired order
+        
+        if (!Array.isArray(order)) {
+            return res.status(400).json({ error: 'Invalid order array' });
+        }
+
+        // Update display_order for each media item
+        for (let i = 0; i < order.length; i++) {
+            await query('UPDATE car_media SET display_order = ? WHERE id = ? AND car_id = ?', [i, order[i], id]);
+        }
+
+        res.json({ ok: true });
+    } catch (err) {
+        logError('[cars:media:reorder]', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

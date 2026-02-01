@@ -46,11 +46,13 @@ export const CarsAPI = {
     update: (id, data) => api.put(`/cars/${id}`, data).then(r => r.data),
     remove: (id) => api.delete(`/cars/${id}`).then(r => r.data),
     feature: (id, featured) => api.patch(`/cars/${id}/feature`, { featured }).then(r => r.data),
+    publish: (id, published) => api.patch(`/cars/${id}/publish`, { published }).then(r => r.data),
     uploadMedia: (id, files) => {
         const fd = new FormData();
         [].concat(files).forEach(f => fd.append('files', f));
         return api.post(`/cars/${id}/media`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }).then(r => r.data);
     },
+    reorderMedia: (id, order) => api.put(`/cars/${id}/media/reorder`, { order }).then(r => r.data),
     deleteMedia: (id, mediaId) => api.delete(`/cars/${id}/media/${mediaId}`).then(r => r.data),
     setFeatures: (id, features) => api.put(`/cars/${id}/features`, { features }).then(r => r.data),
     setSpecs: (id, specs) => api.put(`/cars/${id}/specs`, { specs }).then(r => r.data),
@@ -70,7 +72,8 @@ export const NewsletterAPI = {
     me: () => api.get('/newsletter/me').then(r => r.data),
     preferences: (prefs) => api.put('/newsletter/preferences', prefs).then(r => r.data),
     list: () => api.get('/newsletter/subscribers').then(r => r.data),
-    send: (payload) => api.post('/newsletter/send', payload).then(r => r.data)
+    send: (payload) => api.post('/newsletter/send', payload).then(r => r.data),
+    remove: (id) => api.delete(`/newsletter/subscribers/${id}`).then(r => r.data)
 };
 
 // Company

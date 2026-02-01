@@ -149,6 +149,11 @@ const company = reactive({ name: 'MK Automobile', address: '', phone: '', email:
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' });
 
 const mapSrc = computed(() => {
+  // Use coordinates for more precise map location
+  if (company.lat && company.lng) {
+    return `https://www.google.com/maps?q=${company.lat},${company.lng}&output=embed`;
+  }
+  // Fallback to address if coordinates are not available
   const address = encodeURIComponent(company.address);
   return `https://www.google.com/maps?q=${address}&output=embed`;
 });

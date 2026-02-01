@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS cars (
     vin VARCHAR(64),
     description TEXT,
     featured TINYINT(1) NOT NULL DEFAULT 0,
+    published TINYINT(1) NOT NULL DEFAULT 0,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS cars (
     INDEX idx_year(year),
     INDEX idx_price(price),
     INDEX idx_featured(featured),
+    INDEX idx_published(published),
     CONSTRAINT fk_cars_user FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE
     SET NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
@@ -42,8 +44,10 @@ CREATE TABLE IF NOT EXISTS car_media (
     type ENUM('image', 'video') NOT NULL,
     url VARCHAR(512) NOT NULL,
     filename VARCHAR(255),
+    display_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_car_id(car_id),
+    INDEX idx_display_order(display_order),
     CONSTRAINT fk_media_car FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
@@ -61,6 +65,10 @@ CREATE TABLE IF NOT EXISTS newsletter_subscribers (
 ALTER TABLE newsletter_subscribers ADD COLUMN email_notifications TINYINT(1) NOT NULL DEFAULT 1;
 ALTER TABLE newsletter_subscribers ADD COLUMN new_listings TINYINT(1) NOT NULL DEFAULT 1;
 ALTER TABLE users ADD COLUMN phone VARCHAR(64) NULL AFTER name;
+ALTER TABLE cars ADD COLUMN published TINYINT(1) NOT NULL DEFAULT 0 AFTER featured;
+ALTER TABLE cars ADD INDEX idx_published(published);
+ALTER TABLE car_media ADD COLUMN display_order INT DEFAULT 0;
+ALTER TABLE car_media ADD INDEX idx_display_order(display_order);
 
 CREATE TABLE IF NOT EXISTS company_info (
     id INT PRIMARY KEY,

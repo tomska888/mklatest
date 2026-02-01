@@ -51,10 +51,28 @@ router.post(
 // GET /api/newsletter/subscribers (admin)
 router.get('/subscribers', authMiddleware, requireRoles(['owner', 'admin', 'employee']), async (req, res) => {
     try {
-        const rows = await query('SELECT id, email, subscribed_at FROM newsletter_subscribers ORDER BY subscribed_at DESC');
+        const rows = await query('SELECT id, email, email_notifications, new_listings, subscribed_at FROM newsletter_subscribers ORDER BY subscribed_at DESC');
         res.json({ items: rows });
     } catch (err) {
         logError('[newsletter:list]', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+// DELETE /api/newsletter/subscribers/:id (admin) - Remove a subscriber
+router.delete('/subscribers/:id', authMiddleware, requireRoles(['owner', 'admin', 'employee']), async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        if (isNaN(id)) return res.status(400).json({ error: 'Invalid subscriber ID' });
+
+        const result = await query('DELETE FROM newsletter_subscribers WHERE id = ?', [id]);
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'Subscriber not found' });
+        }
+
+        res.json({ ok: true });
+    } catch (err) {
+        logError('[newsletter:delete]', err);
         res.status(500).json({ error: 'Server error' });
     }
 });

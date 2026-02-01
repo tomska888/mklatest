@@ -47,7 +47,7 @@ const router = createRouter({
         { path: '/login', name: 'login', component: () => import('../pages/Login.vue'), meta: { guestOnly: true } },
         { path: '/register', name: 'register', component: () => import('../pages/Register.vue'), meta: { guestOnly: true } },
         { path: '/profile', name: 'profile', component: () => import('../pages/Profile.vue'), meta: { requiresAuth: true } },
-        { path: '/admin', name: 'admin', component: () => import('../pages/AdminPanelFigma.vue'), meta: { requiresAuth: true, roles: ['owner', 'admin', 'employee'] } }
+        { path: '/admin', name: 'admin', component: () => import('../pages/AdminPanelMain.vue'), meta: { requiresAuth: true, roles: ['owner', 'admin', 'employee'] } }
     ],
     scrollBehavior() { return { top: 0 }; }
 });
