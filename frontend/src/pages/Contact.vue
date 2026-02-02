@@ -11,6 +11,24 @@
           <div class="card-body">
             <h2 class="section-title">Send us a Message</h2>
 
+            <!-- Success Message -->
+            <div v-if="submitStatus === 'success'" class="alert success">
+              <i class="fa-solid fa-check-circle"></i>
+              <div>
+                <strong>Message Sent!</strong>
+                <p>Thank you for contacting us. We'll get back to you soon.</p>
+              </div>
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="submitStatus === 'error'" class="alert error">
+              <i class="fa-solid fa-exclamation-circle"></i>
+              <div>
+                <strong>Error</strong>
+                <p>Failed to send message. Please try again or contact us directly.</p>
+              </div>
+            </div>
+
             <form class="form" @submit.prevent="sendEmail">
               <div class="row">
                 <div class="col">
@@ -61,9 +79,9 @@
                 </div>
               </div>
 
-              <button class="btn primary send-btn" type="submit">
-                <i class="fa-solid fa-paper-plane"></i>
-                Send Message
+              <button class="btn primary send-btn" type="submit" :disabled="submitting">
+                <i :class="submitting ? 'fa-solid fa-spinner fa-spin' : 'fa-solid fa-paper-plane'"></i>
+                {{ submitting ? 'Sending...' : 'Send Message' }}
               </button>
             </form>
           </div>
@@ -143,10 +161,12 @@
 
 <script setup>
 import { reactive, ref, onMounted, computed } from 'vue';
-import { CompanyAPI } from '../api.js';
+import { CompanyAPI, InquiriesAPI } from '../api.js';
 
 const company = reactive({ name: 'MK Automobile', address: '', phone: '', email: '', lat: 51.3866, lng: 9.1147 });
 const form = reactive({ name: '', email: '', phone: '', subject: '', message: '' });
+const submitting = ref(false);
+const submitStatus = ref(null); // 'success' | 'error' | null
 
 const mapSrc = computed(() => {
   // Use coordinates for more precise map location
@@ -158,11 +178,47 @@ const mapSrc = computed(() => {
   return `https://www.google.com/maps?q=${address}&output=embed`;
 });
 
-function sendEmail() {
-  const to = company.email;
-  const subject = form.subject || 'Inquiry from website';
-  const body = `From: ${form.name} <${form.email}>%0D%0APhone: ${form.phone || '-'}%0D%0A%0D%0A${encodeURIComponent(form.message)}`;
-  window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${body}`;
+async function sendEmail() {
+  if (submitting.value) return;
+  
+  submitting.value = true;
+  submitStatus.value = null;
+
+  try {
+    // Submit inquiry to backend
+    await InquiriesAPI.submit({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      subject: form.subject,
+      message: form.message
+    });
+
+    submitStatus.value = 'success';
+    
+    // Reset form
+    form.name = '';
+    form.email = '';
+    form.phone = '';
+    form.subject = '';
+    form.message = '';
+
+    // Clear success message after 5 seconds
+    setTimeout(() => {
+      submitStatus.value = null;
+    }, 5000);
+
+  } catch (err) {
+    console.error('Failed to submit inquiry:', err);
+    submitStatus.value = 'error';
+    
+    // Clear error message after 5 seconds
+    setTimeout(() => {
+      submitStatus.value = null;
+    }, 5000);
+  } finally {
+    submitting.value = false;
+  }
 }
 
 onMounted(async () => {
@@ -211,4 +267,38 @@ onMounted(async () => {
 
 /* Button tweaks */
 .send-btn { margin-top:.5rem; }
+
+/* Alert Messages */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  border: 1px solid;
+  margin-bottom: 1rem;
+}
+.alert i {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+.alert p {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+}
+.alert strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.alert.success {
+  background: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+.alert.error {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
 </style>

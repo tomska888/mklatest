@@ -63,9 +63,14 @@ const docFileFilter = (req, file, cb) => {
 };
 const uploadDocs = multer({ storage, fileFilter: docFileFilter, limits: { fileSize: 20 * 1024 * 1024 } });
 
-function toSqlFilters(qs) {
+function toSqlFilters(qs, requirePublished = false) {
     const cond = [];
     const params = [];
+
+    // Only show published cars for public-facing requests
+    if (requirePublished) {
+        cond.push('published = 1');
+    }
 
     if (qs.make) { cond.push('make = ?'); params.push(qs.make); }
     if (qs.model) { cond.push('model = ?'); params.push(qs.model); }
@@ -110,7 +115,12 @@ router.get('/', async (req, res) => {
         const offset = (page - 1) * pageSize;
         const sort = toOrderBy(req.query.sort);
 
-        const { where, params } = toSqlFilters(req.query);
+        // Only show published cars to non-admin users
+        // Admin users (authenticated with proper roles) can see all cars
+        const isAdmin = req.user && ['owner', 'admin', 'employee'].includes(req.user.role);
+        const requirePublished = !isAdmin;
+
+        const { where, params } = toSqlFilters(req.query, requirePublished);
 
         const totalRows = await query(`SELECT COUNT(*) as cnt FROM cars ${where}`, params);
         const total = totalRows[0]?.cnt || 0;
@@ -133,7 +143,12 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const id = parseInt(req.params.id);
-        const cars = await query('SELECT * FROM cars WHERE id = ?', [id]);
+        
+        // Only show published cars to non-admin users
+        const isAdmin = req.user && ['owner', 'admin', 'employee'].includes(req.user.role);
+        const publishedCondition = isAdmin ? '' : ' AND published = 1';
+        
+        const cars = await query(`SELECT * FROM cars WHERE id = ?${publishedCondition}`, [id]);
         if (!cars.length) return res.status(404).json({ error: 'Not found' });
         const car = cars[0];
         const media = await query('SELECT id, type, url, filename, display_order FROM car_media WHERE car_id = ? ORDER BY display_order ASC, id ASC', [id]);

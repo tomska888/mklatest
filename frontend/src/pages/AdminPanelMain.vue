@@ -131,6 +131,10 @@
           :byType="byType"
           :recentActivity="recentActivity"
           :subscribersCount="subscribers.length"
+          :activityPage="activityState.page"
+          :activityTotalPages="activityState.totalPages"
+          :activityLoading="activityState.loading"
+          @change-activity-page="activityGo"
         />
         
         <!-- Cars List -->
@@ -189,11 +193,11 @@
           @persist-specs="persistSpecs"
           @upload-media="uploadMedia"
           @delete-media="deleteMedia"
-          @trigger-media="triggerMedia"
+          @trigger-media-input="triggerMedia"
           @reorder-media="reorderMedia"
           @upload-documents="uploadDocuments"
           @delete-document="deleteDocument"
-          @trigger-docs="triggerDocs"
+          @trigger-doc-input="triggerDocs"
           ref="carFormRef"
         />
         
@@ -230,7 +234,7 @@
 </template>
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue';
-import { CarsAPI, CompanyAPI, NewsletterAPI } from '../api.js';
+import { CarsAPI, CompanyAPI, NewsletterAPI, ActivityAPI, InquiriesAPI } from '../api.js';
 // Import subpage components
 import AdminPanelDashboard from './AdminPanelDashboard.vue';
 import AdminPanelCars from './AdminPanelCars.vue';
@@ -258,17 +262,70 @@ const refreshing = ref(false);
 // Dashboard derived stats
 const totals = reactive({ cars: 0, featured: 0 });
 const byType = reactive({});
-const recentActivity = ref([]);
-const MAX_ACTIVITY_ITEMS = 10;
 
-function addActivity(action, details) {
-  const now = new Date();
-  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  recentActivity.value.unshift({ action, details, time, timestamp: now });
-  // Keep only the latest items
-  if (recentActivity.value.length > MAX_ACTIVITY_ITEMS) {
-    recentActivity.value = recentActivity.value.slice(0, MAX_ACTIVITY_ITEMS);
+// Activity state with pagination
+const activityState = reactive({
+  items: [],
+  page: 1,
+  pageSize: 10,
+  total: 0,
+  totalPages: 1,
+  loading: false
+});
+
+// Computed property for recent activity (for backward compatibility)
+const recentActivity = computed(() => activityState.items);
+
+async function loadActivity(page = 1) {
+  try {
+    activityState.loading = true;
+    const data = await ActivityAPI.list({ page, pageSize: activityState.pageSize });
+    activityState.items = data.items.map(item => ({
+      id: item.id,
+      action: item.action,
+      details: item.details,
+      time: formatActivityTime(item.createdAt),
+      timestamp: new Date(item.createdAt)
+    }));
+    activityState.page = data.page;
+    activityState.total = data.total;
+    activityState.totalPages = data.totalPages;
+  } catch (error) {
+    console.error('Failed to load activity:', error);
+    showToast('error', 'Failed to load activity logs', error.message);
+  } finally {
+    activityState.loading = false;
   }
+}
+
+function formatActivityTime(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+async function addActivity(action, details) {
+  try {
+    await ActivityAPI.create({ action, details });
+    // Reload activity to show the new entry
+    await loadActivity(activityState.page);
+  } catch (error) {
+    console.error('Failed to log activity:', error);
+    // Don't show error toast for activity logging failures (non-critical)
+  }
+}
+
+function activityGo(page) {
+  loadActivity(page);
 }
 const avgPriceEUR = computed(() => {
   if (!carsState.items.length) return '—';
@@ -452,8 +509,11 @@ function addSpecification() { const k=(newSpecKey.value||'').trim(); const v=(ne
 function removeSpecification(key) { const { [key]:_, ...rest } = specs; clearSpecs(); Object.assign(specs, rest); }
 async function persistSpecs() { if (!form.id) return; await CarsAPI.setSpecs(form.id, { ...specs }); }
 // Media upload
-const mediaInput = ref(null);
-function triggerMedia() { mediaInput.value && mediaInput.value.click(); }
+const carFormRef = ref(null);
+function triggerMedia() {
+  const input = carFormRef.value?.$refs?.mediaInput;
+  if (input) input.click();
+}
 async function uploadMedia(e) { const files = Array.from(e.target.files || []); if (!files.length || !form.id) return; try { uploading.value = true; await CarsAPI.uploadMedia(form.id, files); e.target.value = ''; await fetchCarDetails(form.id); showToast('success', 'Images uploaded'); } finally { uploading.value = false; } }
 async function reorderMedia(newOrder) {
   if (!form.id || !newOrder || !newOrder.length) return;
@@ -471,8 +531,10 @@ async function reorderMedia(newOrder) {
 async function deleteMedia(m) { if (!form.id || !m?.id) return; await CarsAPI.deleteMedia(form.id, m.id); showToast('success', 'Image deleted'); await fetchCarDetails(form.id); }
 // Documents
 const docType = ref('');
-const docInput = ref(null);
-function triggerDocs() { docInput.value && docInput.value.click(); }
+function triggerDocs() {
+  const input = carFormRef.value?.$refs?.docInput;
+  if (input) input.click();
+}
 async function uploadDocuments(e) { const files = Array.from(e.target.files || []); if (!files.length || !form.id) return; try { uploadingDocs.value = true; await CarsAPI.uploadDocuments(form.id, files, docType.value || null); e.target.value=''; await fetchCarDetails(form.id); } finally { uploadingDocs.value = false; } }
 async function deleteDocument(d) { if (!form.id || !d?.id) return; await CarsAPI.deleteDocument(form.id, d.id); await fetchCarDetails(form.id); }
 // Company
@@ -546,9 +608,26 @@ async function removeSubscriber(id) {
     showToast('error', 'Failed to remove subscriber', error.message);
   }
 }
-// Inquiries (placeholder stats until backend exists)
+// Inquiries
 const inquiries = ref([]);
-const stats = computed(() => ({ total: inquiries.value.length, new: 0, contacted: 0, closed: 0 }));
+const inquiriesStats = ref({ total: 0, pending: 0, in_progress: 0, resolved: 0 });
+
+async function loadInquiries() {
+  try {
+    const [inquiriesData, statsData] = await Promise.all([
+      InquiriesAPI.list(),
+      InquiriesAPI.stats()
+    ]);
+    inquiries.value = inquiriesData.items || [];
+    inquiriesStats.value = statsData;
+  } catch (error) {
+    console.error('Failed to load inquiries:', error);
+    showToast('error', 'Failed to load inquiries', error.message);
+  }
+}
+
+// Backward compatibility computed property
+const stats = computed(() => inquiriesStats.value);
 // Helpers
 function formatPriceEUR(v) {
   try {
@@ -574,7 +653,7 @@ function formatDate(date) {
 async function loadAllData() {
   refreshing.value = true;
   try {
-    await Promise.all([loadCars(), loadCompany(), loadSubscribers()]);
+    await Promise.all([loadCars(), loadCompany(), loadSubscribers(), loadActivity(), loadInquiries()]);
     showToast('success', 'Data refreshed');
   } catch (error) {
     showToast('error', 'Refresh failed', error.message);

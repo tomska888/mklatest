@@ -89,3 +89,22 @@ export const FavoritesAPI = {
     add: (carId) => api.post(`/favorites/${carId}`).then(r => r.data),
     remove: (carId) => api.delete(`/favorites/${carId}`).then(r => r.data)
 };
+
+// Activity Logs
+export const ActivityAPI = {
+    list: (params) => api.get('/activity', { params }).then(r => r.data),
+    create: (data) => api.post('/activity', data).then(r => r.data),
+    remove: (id) => api.delete(`/activity/${id}`).then(r => r.data)
+};
+
+// Customer Inquiries
+export const InquiriesAPI = {
+    submit: (data) => api.post('/inquiries', data).then(r => r.data),
+    list: (params) => api.get('/inquiries', { params }).then(r => r.data),
+    stats: () => api.get('/inquiries/stats').then(r => r.data),
+    get: (id) => api.get(`/inquiries/${id}`).then(r => r.data),
+    updateStatus: (id, status) => api.patch(`/inquiries/${id}/status`, { status }).then(r => r.data),
+    remove: (id) => api.delete(`/inquiries/${id}`).then(r => r.data),
+    reply: (id, data) => api.post(`/inquiries/${id}/reply`, data).then(r => r.data),
+    getReplies: (id) => api.get(`/inquiries/${id}/replies`).then(r => r.data)
+};

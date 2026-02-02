@@ -50,7 +50,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="c in cars" :key="c.id" class="table-row">
+            <tr v-for="c in props.cars" :key="c.id" class="table-row">
               <td>
                 <div class="thumb-wrapper">
                   <img
@@ -210,7 +210,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   cars: { type: Array, default: () => [] },
   totals: { type: Object, required: true },
   loading: { type: Boolean, default: false },
@@ -235,9 +235,9 @@ defineEmits([
   'update:searchQuery'
 ]);
 
-function firstImage(c) { 
-  const m = (c.media || []).find(x => x.type === 'image'); 
-  return m ? m.url : ''; 
+function firstImage(c) {
+  const m = (c.media || []).find(x => x.type === 'image');
+  return m ? m.url : '';
 }
 
 function formatPriceEUR(v) {

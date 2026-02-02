@@ -11,6 +11,8 @@ import carsRouter from './routes/cars.js';
 import newsletterRouter from './routes/newsletter.js';
 import companyRouter from './routes/company.js';
 import favoritesRouter from './routes/favorites.js';
+import activityRouter from './routes/activity.js';
+import inquiriesRouter from './routes/inquiries.js';
 import { initializeSchema, ping, getPool } from './db.js';
 
 // WORKAROUND: Hostinger has a known bug where env vars aren't properly read outside .env files.
@@ -164,6 +166,8 @@ app.use('/api/cars', carsRouter);
 app.use('/api/newsletter', newsletterRouter);
 app.use('/api/company', companyRouter);
 app.use('/api/favorites', favoritesRouter);
+app.use('/api/activity', activityRouter);
+app.use('/api/inquiries', inquiriesRouter);
 
 // Fallback to index.html for SPA routing
 app.get('*', (req, res, next) => {

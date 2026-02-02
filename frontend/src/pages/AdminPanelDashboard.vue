@@ -59,9 +59,17 @@
       <div class="dashboard-main">
         <div class="card activity-card">
           <div class="card-body">
-            <h2 class="card-title">Recent Activity</h2>
-            <div class="activity" v-if="recentActivity.length">
-              <div class="row" v-for="(a,i) in recentActivity" :key="i">
+            <h2 class="card-title">Activity History</h2>
+            
+            <!-- Loading State -->
+            <div class="activity-loading" v-if="activityLoading">
+              <div class="loader"></div>
+              <p>Loading activity...</p>
+            </div>
+            
+            <!-- Activity List -->
+            <div class="activity" v-else-if="recentActivity.length">
+              <div class="row" v-for="(a,i) in recentActivity" :key="a.id || i">
                 <div>
                   <p class="title">{{ a.action }}</p>
                   <p class="muted">{{ a.details }}</p>
@@ -69,9 +77,34 @@
                 <span class="time">{{ a.time }}</span>
               </div>
             </div>
+            
+            <!-- Empty State -->
             <div class="empty-state" v-else>
               <i class="fa-solid fa-clock"></i>
-              <p>No recent activity</p>
+              <p>No activity yet</p>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="activity-pagination" v-if="activityTotalPages > 1 && !activityLoading">
+              <button
+                class="btn btn-sm"
+                :disabled="activityPage === 1"
+                @click="emit('change-activity-page', activityPage - 1)"
+              >
+                <i class="fa-solid fa-chevron-left"></i>
+                Previous
+              </button>
+              <div class="pagination-info">
+                Page {{ activityPage }} of {{ activityTotalPages }}
+              </div>
+              <button
+                class="btn btn-sm"
+                :disabled="activityPage >= activityTotalPages"
+                @click="emit('change-activity-page', activityPage + 1)"
+              >
+                Next
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -85,8 +118,13 @@ const props = defineProps({
   totals: { type: Object, required: true },
   byType: { type: Object, required: true },
   recentActivity: { type: Array, default: () => [] },
-  subscribersCount: { type: Number, default: 0 }
+  subscribersCount: { type: Number, default: 0 },
+  activityPage: { type: Number, default: 1 },
+  activityTotalPages: { type: Number, default: 1 },
+  activityLoading: { type: Boolean, default: false }
 });
+
+const emit = defineEmits(['change-activity-page']);
 
 function percent(part, total) {
   if (!total) return 0;
@@ -273,10 +311,76 @@ function getDotColor(index) {
 }
 
 /* Activity list */
-.activity { display:flex; flex-direction:column; gap:.75rem; }
+.activity { display:flex; flex-direction:column; gap:.75rem; margin-bottom: 1rem; }
 .activity .row { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:.75rem; border-bottom:1px solid #e5e7eb; }
 .activity .row:last-child { border-bottom:none; }
-.activity .title { font-weight:600; margin:0 0 .15rem; }
-.activity .muted { color:#6b7280; margin:0; }
+.activity .title { font-weight:600; margin:0 0 .15rem; color: #0f172a; }
+.activity .muted { color:#6b7280; margin:0; font-size: 0.875rem; }
 .activity .time { white-space:nowrap; color:#6b7280; font-size:.8rem; margin-left:1rem; }
+
+/* Activity loading */
+.activity-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  color: #64748b;
+}
+
+.loader {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Activity pagination */
+.activity-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  gap: 0.75rem;
+}
+
+.activity-pagination .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #475569;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.activity-pagination .btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.activity-pagination .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.activity-pagination .pagination-info {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
 </style>
