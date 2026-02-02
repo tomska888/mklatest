@@ -123,6 +123,8 @@ async function subscribe() {
 .newsletter .input-group:focus-within { box-shadow: 0 8px 20px rgba(2,6,23,.06); transform: translateY(-1px); }
 .newsletter .input { flex:1; padding-right:36px; transition: border-color .16s ease; }
 .newsletter .input:focus { border-color:#cbd5e1; }
+.newsletter .btn.primary { background:#3b82f6; transition: background .16s ease; }
+.newsletter .btn.primary:hover { background:#2563eb; }
 .adornment { position:absolute; right:118px; width:26px; height:26px; top:50%; transform:translateY(-50%); display:grid; place-items:center; color:#94a3b8; }
 .adornment i { font-size:16px; }
 

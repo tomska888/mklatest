@@ -35,18 +35,12 @@
                   <label class="label">Full Name</label>
                   <div class="field">
                     <input class="input" type="text" v-model="form.name" placeholder="Your name" required />
-                    <span class="addon" aria-hidden="true">
-                      <i class="fa-solid fa-user"></i>
-                    </span>
                   </div>
                 </div>
                 <div class="col">
                   <label class="label">Email Address</label>
                   <div class="field">
                     <input class="input" type="email" v-model="form.email" placeholder="your@email.com" required />
-                    <span class="addon" aria-hidden="true">
-                      <i class="fa-solid fa-envelope"></i>
-                    </span>
                   </div>
                 </div>
               </div>
@@ -56,18 +50,12 @@
                   <label class="label">Phone Number (Optional)</label>
                   <div class="field">
                     <input class="input" type="tel" v-model="form.phone" placeholder="+49 ..." />
-                    <span class="addon" aria-hidden="true">
-                      <i class="fa-solid fa-phone"></i>
-                    </span>
                   </div>
                 </div>
                 <div class="col">
                   <label class="label">Subject</label>
                   <div class="field">
                     <input class="input" type="text" v-model="form.subject" placeholder="What's this about?" />
-                    <span class="addon" aria-hidden="true">
-                      <i class="fa-solid fa-tag"></i>
-                    </span>
                   </div>
                 </div>
               </div>
@@ -75,7 +63,7 @@
               <div class="row">
                 <div class="col col-full">
                   <label class="label">Message</label>
-                  <textarea class="input" rows="6" v-model="form.message" placeholder="Tell us more..." required></textarea>
+                  <textarea class="input" rows="4" v-model="form.message" placeholder="Tell us more..." required></textarea>
                 </div>
               </div>
 
@@ -259,14 +247,17 @@ onMounted(async () => {
 .map-embed { overflow:hidden; border-radius:.75rem; }
 .map-embed .embed { width: 100%; height: 420px; }
 
-/* Input adornments to match screenshot */
+/* Input field styles */
 .field { position:relative; }
-.field .input { padding-right: 40px; }
-.addon { position:absolute; right:8px; top:50%; transform:translateY(-50%); width:30px; height:30px; border-radius:10px; background:#fff; color:#14b8a6; border:1px solid #e2e8f0; display:grid; place-items:center; box-shadow:0 1px 1px rgba(0,0,0,.04); }
-.addon i { font-size:16px; }
 
 /* Button tweaks */
-.send-btn { margin-top:.5rem; }
+.send-btn {
+  margin-top:.5rem;
+  background: #3b82f6 !important;
+}
+.send-btn:hover {
+  background: #2563eb !important;
+}
 
 /* Alert Messages */
 .alert {
