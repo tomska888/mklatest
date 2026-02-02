@@ -115,10 +115,11 @@ router.get('/', optionalAuthMiddleware, async (req, res) => {
         const offset = (page - 1) * pageSize;
         const sort = toOrderBy(req.query.sort);
 
-        // Only show published cars to non-admin users
-        // Admin users (authenticated with proper roles) can see all cars
+        // Allow admin to see unpublished cars ONLY when explicitly requested via query param
+        // This allows admin panel to show all cars while public pages only show published
         const isAdmin = req.user && ['owner', 'admin', 'employee'].includes(req.user.role);
-        const requirePublished = !isAdmin;
+        const showUnpublished = req.query.showUnpublished === 'true' && isAdmin;
+        const requirePublished = !showUnpublished;
 
         const { where, params } = toSqlFilters(req.query, requirePublished);
 
@@ -145,8 +146,10 @@ router.get('/:id', optionalAuthMiddleware, async (req, res) => {
         const id = parseInt(req.params.id);
         
         // Only show published cars to non-admin users
+        // Admin can view unpublished cars when accessing from admin panel
         const isAdmin = req.user && ['owner', 'admin', 'employee'].includes(req.user.role);
-        const publishedCondition = isAdmin ? '' : ' AND published = 1';
+        const showUnpublished = req.query.showUnpublished === 'true' && isAdmin;
+        const publishedCondition = showUnpublished ? '' : ' AND published = 1';
         
         const cars = await query(`SELECT * FROM cars WHERE id = ?${publishedCondition}`, [id]);
         if (!cars.length) return res.status(404).json({ error: 'Not found' });

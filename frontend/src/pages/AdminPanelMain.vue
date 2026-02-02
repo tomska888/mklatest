@@ -349,7 +349,7 @@ const uploadingDocs = ref(false);
 async function loadCars() {
   try {
     loadingCars.value = true;
-    const data = await CarsAPI.list({ q: carsState.q, page: carsState.page, pageSize: 12, sort: 'created_at_desc' });
+    const data = await CarsAPI.list({ q: carsState.q, page: carsState.page, pageSize: 12, sort: 'created_at_desc', showUnpublished: 'true' });
     // Use data from API
     carsState.items = data.items || [];
     carsState.totalPages = data.totalPages || 1;
@@ -432,7 +432,7 @@ async function startEditCar(c) { blankForm(); Object.assign(form, c); formTab.va
 function cancelForm() { current.value = 'cars'; }
 async function fetchCarDetails(id) {
   try {
-    const data = await CarsAPI.get(id);
+    const data = await CarsAPI.get(id, { showUnpublished: 'true' });
     media.value = data.media || [];
     features.value = data.features || [];
     clearSpecs();

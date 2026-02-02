@@ -41,7 +41,7 @@ export const AuthAPI = {
 // Cars
 export const CarsAPI = {
     list: (params) => api.get('/cars', { params }).then(r => r.data),
-    get: (id) => api.get(`/cars/${id}`).then(r => r.data),
+    get: (id, params) => api.get(`/cars/${id}`, { params }).then(r => r.data),
     create: (data) => api.post('/cars', data).then(r => r.data),
     update: (id, data) => api.put(`/cars/${id}`, data).then(r => r.data),
     remove: (id) => api.delete(`/cars/${id}`).then(r => r.data),
