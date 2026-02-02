@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
 import { query } from '../db.js';
-import { authMiddleware } from './auth.js';
+import { authMiddleware, optionalAuthMiddleware } from './auth.js';
 import { logError } from '../logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -108,7 +108,7 @@ function toOrderBy(sort) {
 }
 
 // GET /api/cars
-router.get('/', async (req, res) => {
+router.get('/', optionalAuthMiddleware, async (req, res) => {
     try {
         const page = Math.max(1, parseInt(req.query.page) || 1);
         const pageSize = Math.max(1, Math.min(50, parseInt(req.query.pageSize) || 12));
@@ -140,7 +140,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET /api/cars/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', optionalAuthMiddleware, async (req, res) => {
     try {
         const id = parseInt(req.params.id);
         

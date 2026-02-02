@@ -144,7 +144,7 @@
           <!-- Customer Info -->
           <div class="info-section">
             <h4><i class="fa-solid fa-user"></i> Customer Information</h4>
-            <div class="info-grid">
+            <div class="info-row">
               <div class="info-item">
                 <label>Name:</label>
                 <span>{{ selectedInquiry.name }}</span>
@@ -153,13 +153,15 @@
                 <label>Email:</label>
                 <span>{{ selectedInquiry.email }}</span>
               </div>
-              <div class="info-item" v-if="selectedInquiry.phone">
-                <label>Phone:</label>
-                <span>{{ selectedInquiry.phone }}</span>
-              </div>
               <div class="info-item">
                 <label>Date:</label>
                 <span>{{ formatDate(selectedInquiry.created_at) }}</span>
+              </div>
+            </div>
+            <div v-if="selectedInquiry.phone" class="info-row" style="margin-top: 1rem;">
+              <div class="info-item">
+                <label>Phone:</label>
+                <span>{{ selectedInquiry.phone }}</span>
               </div>
             </div>
           </div>
@@ -172,37 +174,6 @@
             </div>
             <div class="message-content">
               {{ selectedInquiry.message }}
-            </div>
-          </div>
-
-          <!-- Status Actions -->
-          <div class="info-section">
-            <h4><i class="fa-solid fa-flag"></i> Status</h4>
-            <div class="status-buttons">
-              <button
-                :class="['status-btn', 'pending', { active: selectedInquiry.status === 'pending' }]"
-                @click="updateInquiryStatus('pending')"
-                title="Mark as Pending - Waiting to be replied"
-              >
-                <i class="fa-solid fa-clock"></i>
-                <span>Pending</span>
-              </button>
-              <button
-                :class="['status-btn', 'in_progress', { active: selectedInquiry.status === 'in_progress' }]"
-                @click="updateInquiryStatus('in_progress')"
-                title="Mark as In Progress - Currently replying"
-              >
-                <i class="fa-solid fa-spinner"></i>
-                <span>In Progress</span>
-              </button>
-              <button
-                :class="['status-btn', 'resolved', { active: selectedInquiry.status === 'resolved' }]"
-                @click="updateInquiryStatus('resolved')"
-                title="Mark as Resolved - Reply sent and case closed"
-              >
-                <i class="fa-solid fa-check-circle"></i>
-                <span>Resolved</span>
-              </button>
             </div>
           </div>
 
@@ -258,6 +229,29 @@
         </div>
 
         <div class="modal-footer">
+          <div class="status-buttons-footer">
+            <button
+              :class="['status-btn-icon', 'pending', { active: selectedInquiry.status === 'pending' }]"
+              @click="updateInquiryStatus('pending')"
+              title="Mark as Pending"
+            >
+              <i class="fa-solid fa-clock"></i>
+            </button>
+            <button
+              :class="['status-btn-icon', 'in_progress', { active: selectedInquiry.status === 'in_progress' }]"
+              @click="updateInquiryStatus('in_progress')"
+              title="Mark as In Progress"
+            >
+              <i class="fa-solid fa-spinner"></i>
+            </button>
+            <button
+              :class="['status-btn-icon', 'resolved', { active: selectedInquiry.status === 'resolved' }]"
+              @click="updateInquiryStatus('resolved')"
+              title="Mark as Resolved"
+            >
+              <i class="fa-solid fa-check-circle"></i>
+            </button>
+          </div>
           <button class="btn ghost" @click="closeModal">Close</button>
         </div>
       </div>
@@ -606,6 +600,10 @@ onMounted(() => {
   color: white;
 }
 
+.btn-icon.danger {
+  color: #dc2626;
+}
+
 .btn-icon.danger:hover {
   background: #fef2f2;
   border-color: #fca5a5;
@@ -738,8 +736,63 @@ onMounted(() => {
   padding: 1.5rem;
   border-top: 1px solid #e5e7eb;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.75rem;
+}
+
+.status-buttons-footer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.status-btn-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 2px solid #e2e8f0;
+  border-radius: 0.5rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.status-btn-icon.pending {
+  color: #d97706;
+}
+
+.status-btn-icon.pending:hover,
+.status-btn-icon.pending.active {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.status-btn-icon.in_progress {
+  color: #8b5cf6;
+}
+
+.status-btn-icon.in_progress:hover,
+.status-btn-icon.in_progress.active {
+  background: #faf5ff;
+  border-color: #e9d5ff;
+}
+
+.status-btn-icon.resolved {
+  color: #16a34a;
+}
+
+.status-btn-icon.resolved:hover,
+.status-btn-icon.resolved.active {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.status-btn-icon.active {
+  border-width: 3px;
 }
 
 .info-section {
@@ -768,6 +821,12 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+}
+
+.info-row {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .info-item {

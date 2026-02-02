@@ -58,6 +58,25 @@ function authMiddleware(req, res, next) {
   }
 }
 
+// Optional auth middleware - sets req.user if token is valid, but doesn't fail if missing
+function optionalAuthMiddleware(req, res, next) {
+  const hdr = req.headers['authorization'] || '';
+  const token = hdr.startsWith('Bearer ') ? hdr.slice(7) : null;
+  if (!token) {
+    req.user = null;
+    return next();
+  }
+  try {
+    const decoded = jwt.verify(token, getJwtSecret());
+    req.user = decoded;
+    next();
+  } catch (e) {
+    // Invalid token - treat as unauthenticated
+    req.user = null;
+    next();
+  }
+}
+
 // POST /api/auth/register
 router.post(
   '/register',
@@ -199,4 +218,4 @@ router.delete('/me', authMiddleware, async (req, res) => {
 });
 
 export default router;
-export { authMiddleware };
+export { authMiddleware, optionalAuthMiddleware };

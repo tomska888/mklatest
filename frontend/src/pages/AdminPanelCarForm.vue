@@ -1515,8 +1515,9 @@ function handleDrop(targetId) {
 
 .section-header-inline {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
