@@ -22,11 +22,11 @@ function requireRoles(roles = []) {
 router.post(
     '/',
     [
-        body('name').notEmpty().trim().withMessage('Name is required'),
+        body('name').notEmpty().trim().isLength({ min: 1, max: 100 }).withMessage('Name is required and must not exceed 100 characters'),
         body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
-        body('phone').optional().trim(),
-        body('subject').optional().trim(),
-        body('message').notEmpty().trim().withMessage('Message is required')
+        body('phone').optional().trim().isLength({ max: 50 }).withMessage('Phone must not exceed 50 characters'),
+        body('subject').optional().trim().isLength({ max: 200 }).withMessage('Subject must not exceed 200 characters'),
+        body('message').notEmpty().trim().isLength({ min: 1, max: 5000 }).withMessage('Message is required and must not exceed 5000 characters')
     ],
     async (req, res) => {
         const errors = validationResult(req);
@@ -173,6 +173,14 @@ router.post('/:id/reply', authMiddleware, requireRoles(['owner', 'admin', 'emplo
         const { subject, message } = req.body;
         if (!subject || !message) {
             return res.status(400).json({ error: 'Subject and message are required' });
+        }
+
+        // Validate length
+        if (typeof subject !== 'string' || subject.length > 200) {
+            return res.status(400).json({ error: 'Subject must be a string with max 200 characters' });
+        }
+        if (typeof message !== 'string' || message.length > 10000) {
+            return res.status(400).json({ error: 'Message must be a string with max 10,000 characters' });
         }
 
         // Get inquiry details

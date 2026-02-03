@@ -1,6 +1,7 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
 import nodemailer from 'nodemailer';
+import DOMPurify from 'isomorphic-dompurify';
 import { query } from '../db.js';
 import { authMiddleware } from './auth.js';
 
@@ -81,7 +82,34 @@ router.delete('/subscribers/:id', authMiddleware, requireRoles(['owner', 'admin'
 router.post('/send', authMiddleware, requireRoles(['owner', 'admin', 'employee']), async (req, res) => {
     try {
         const { subject, html, text } = req.body || {};
-        if (!subject || (!html && !text)) return res.status(400).json({ error: 'Missing subject or content' });
+        
+        // Validate required fields
+        if (!subject || (!html && !text)) {
+            return res.status(400).json({ error: 'Missing subject or content' });
+        }
+
+        // Validate subject length (max 200 characters)
+        if (typeof subject !== 'string' || subject.length > 200) {
+            return res.status(400).json({ error: 'Subject must be a string with max 200 characters' });
+        }
+
+        // Validate text length if provided (max 50,000 characters)
+        if (text && (typeof text !== 'string' || text.length > 50000)) {
+            return res.status(400).json({ error: 'Text content must be a string with max 50,000 characters' });
+        }
+
+        // Validate and sanitize HTML if provided (max 100,000 characters)
+        let sanitizedHtml = undefined;
+        if (html) {
+            if (typeof html !== 'string' || html.length > 100000) {
+                return res.status(400).json({ error: 'HTML content must be a string with max 100,000 characters' });
+            }
+            // Sanitize HTML to prevent XSS attacks
+            sanitizedHtml = DOMPurify.sanitize(html, {
+                ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'div', 'span', 'table', 'tr', 'td', 'th'],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'style', 'class']
+            });
+        }
 
         const subs = await query('SELECT email FROM newsletter_subscribers');
         const emails = subs.map(s => s.email);
@@ -97,9 +125,9 @@ router.post('/send', authMiddleware, requireRoles(['owner', 'admin', 'employee']
             const info = await transporter.sendMail({
                 from,
                 bcc: batch,
-                subject,
+                subject: subject.substring(0, 200), // Extra safety
                 text: text || undefined,
-                html: html || undefined
+                html: sanitizedHtml
             });
             if (info.accepted) sent += info.accepted.length;
         }

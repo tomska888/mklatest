@@ -1,14 +1,27 @@
 import { Router } from 'express';
 import { getPool } from '../db.js';
+import { authMiddleware } from './auth.js';
 
 const router = Router();
 
 /**
+ * Role-based access control middleware
+ */
+function requireRoles(roles = []) {
+  return (req, res, next) => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    next();
+  };
+}
+
+/**
  * GET /api/activity
- * List activity logs with pagination
+ * List activity logs with pagination (Admin only)
  * Query params: page (default 1), pageSize (default 10)
  */
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, requireRoles(['owner', 'admin']), async (req, res) => {
   try {
     const pool = await getPool();
     const page = Math.max(1, parseInt(req.query.page) || 1);
@@ -50,21 +63,35 @@ router.get('/', async (req, res) => {
 
 /**
  * POST /api/activity
- * Create a new activity log entry
- * Body: { action: string, details?: string, userId?: number }
+ * Create a new activity log entry (Authenticated users)
+ * Body: { action: string, details?: string }
+ * Note: userId is automatically set from authenticated user, not from request body
  */
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
-    const { action, details, userId } = req.body;
+    const { action, details } = req.body;
 
     if (!action || typeof action !== 'string') {
       return res.status(400).json({ error: 'action is required and must be a string' });
     }
 
+    // Validate action length
+    if (action.length > 255) {
+      return res.status(400).json({ error: 'action must not exceed 255 characters' });
+    }
+
+    // Validate details length if provided
+    if (details && typeof details === 'string' && details.length > 5000) {
+      return res.status(400).json({ error: 'details must not exceed 5000 characters' });
+    }
+
+    // Use authenticated user's ID instead of trusting client input
+    const userId = req.user.id;
+
     const pool = await getPool();
     const [result] = await pool.query(
       'INSERT INTO activity_logs (action, details, user_id) VALUES (?, ?, ?)',
-      [action.trim(), details || null, userId || null]
+      [action.trim(), details || null, userId]
     );
 
     // Fetch the newly created log entry
@@ -89,17 +116,25 @@ router.post('/', async (req, res) => {
 
 /**
  * DELETE /api/activity/:id
- * Delete an activity log entry (optional - for cleanup)
+ * Delete an activity log entry (Admin only)
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, requireRoles(['owner', 'admin']), async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
-    if (!id) {
+    const id = parseInt(req.params.id, 10);
+    
+    // Improved validation: check for NaN and negative numbers
+    if (isNaN(id) || id <= 0) {
       return res.status(400).json({ error: 'Invalid activity log ID' });
     }
 
     const pool = await getPool();
-    await pool.query('DELETE FROM activity_logs WHERE id = ?', [id]);
+    const [result] = await pool.query('DELETE FROM activity_logs WHERE id = ?', [id]);
+    
+    // Check if any rows were affected
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Activity log not found' });
+    }
+    
     res.json({ success: true });
   } catch (error) {
     console.error('[activity] delete error:', error);

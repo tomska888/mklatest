@@ -2,6 +2,7 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import { query } from '../db.js';
 import { authMiddleware } from './auth.js';
+import { logError } from '../logger.js';
 
 import config from '../config.js';
 

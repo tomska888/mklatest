@@ -129,15 +129,15 @@ app.get('/api/health', async (req, res) => {
     ok: true,
     db,
     db_error,
-    // Avoid leaking infra metadata publicly; keep these only outside production.
+    // Only expose minimal metadata in non-production environments
     ...(process.env.NODE_ENV !== 'production'
       ? {
           db_host: process.env.DATABASE_HOST,
           db_name: process.env.DATABASE_NAME
         }
       : {}),
-    // In production, include minimal env diagnostics when DB is down.
-    // This helps debug hosting env injection issues without exposing passwords.
+    // In production, only show if env vars are set (boolean), never actual values
+    // This helps debug hosting env injection issues without exposing credentials
     ...(process.env.NODE_ENV === 'production' && !db
       ? {
           env_diag: {
@@ -145,11 +145,9 @@ app.get('/api/health', async (req, res) => {
             DATABASE_PORT_set: !!process.env.DATABASE_PORT,
             DATABASE_USER_set: !!process.env.DATABASE_USER,
             DATABASE_PASSWORD_set: !!process.env.DATABASE_PASSWORD,
-            DATABASE_NAME_set: !!process.env.DATABASE_NAME,
-            DATABASE_HOST: process.env.DATABASE_HOST || null,
-            DATABASE_PORT: process.env.DATABASE_PORT || null,
-            DATABASE_USER_len: (process.env.DATABASE_USER || '').length,
-            DATABASE_NAME_len: (process.env.DATABASE_NAME || '').length
+            DATABASE_NAME_set: !!process.env.DATABASE_NAME
+            // SECURITY: Removed actual values (DATABASE_HOST, DATABASE_PORT, etc.)
+            // to prevent information disclosure
           }
         }
       : {}),
