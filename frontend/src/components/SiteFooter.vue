@@ -12,10 +12,10 @@
           </div>
           <p class="muted">Premium quality used cars in Germany. Trusted by customers since 2016.</p>
           <div class="social">
-            <a href="#" aria-label="Facebook" class="icon">
+            <a href="#" aria-label="Facebook" class="icon facebook">
               <i class="fa-brands fa-facebook"></i>
             </a>
-            <a href="#" aria-label="Instagram" class="icon">
+            <a href="#" aria-label="Instagram" class="icon instagram">
               <i class="fa-brands fa-instagram"></i>
             </a>
           </div>
@@ -54,8 +54,8 @@
       <div class="bottom">
         <small>© {{ new Date().getFullYear() }} MK Automobile. All rights reserved.</small>
         <nav class="legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
+          <router-link to="/privacy-policy">Privacy Policy</router-link>
+          <router-link to="/terms-of-service">Terms of Service</router-link>
         </nav>
       </div>
     </div>
@@ -108,10 +108,12 @@ async function subscribe() {
 .social .icon i { font-size:18px; }
 .social .icon:hover { transform: translateY(-2px); border-color:#cbd5e1; background:#f8fafc; box-shadow: 0 4px 12px rgba(2,6,23,.08); }
 .social .icon:active { transform: translateY(-1px); box-shadow: 0 2px 6px rgba(2,6,23,.08); }
+.social .icon.facebook { color:#1877F2; }
+.social .icon.instagram { color:#E1306C; }
 
-.links { display:grid; gap:.35rem; }
+.links { display:flex; flex-direction:column; gap:.35rem; align-items:flex-start; }
 .links a { color:#0f172a; text-decoration:none; position:relative; padding-bottom:2px; transition: color .16s ease; }
-.links a::after { content:''; position:absolute; left:0; right:0; bottom:-2px; height:2px; background:#2563eb; transform:scaleX(0); transform-origin:left; transition: transform .18s ease; border-radius:2px; }
+.links a::after { content:''; position:absolute; left:0; bottom:-2px; height:2px; width:100%; background:#2563eb; transform:scaleX(0); transform-origin:left; transition: transform .18s ease; border-radius:2px; }
 .links a:hover { color:#0b1b2b; }
 .links a:hover::after, .links a.router-link-active::after { transform:scaleX(1); }
 
@@ -125,7 +127,7 @@ async function subscribe() {
 .newsletter .input:focus { border-color:#cbd5e1; }
 .newsletter .btn.primary { background:#3b82f6; transition: background .16s ease; }
 .newsletter .btn.primary:hover { background:#2563eb; }
-.adornment { position:absolute; right:118px; width:26px; height:26px; top:50%; transform:translateY(-50%); display:grid; place-items:center; color:#94a3b8; }
+.adornment { position:absolute; right:118px; width:26px; height:26px; top:50%; transform:translateY(-50%); display:grid; place-items:center; color:#3b82f6; }
 .adornment i { font-size:16px; }
 
 .bottom { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #e5e7eb; margin-top:1.25rem; padding-top:1rem; color:#64748b; }

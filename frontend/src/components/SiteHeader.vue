@@ -4,7 +4,7 @@
       <!-- Brand -->
       <router-link class="brand" to="/">
         <span class="cloud" aria-hidden="true">
-          <i class="fa-solid fa-cloud"></i>
+          <i class="fa-solid fa-car"></i>
         </span>
         <span class="brand-name">MK Automobile</span>
       </router-link>
@@ -239,16 +239,33 @@ function logout() {
 .icon-btn { width:30px; height:30px; display:grid; place-items:center; border:1px solid #e5e7eb; border-radius:.5rem; background:#fff; color:#475569; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background-color .16s ease; font-size: 14px; }
 .icon-btn:hover { transform: translateY(-1px); border-color:#cbd5e1; background:#f8fafc; box-shadow: 0 2px 6px rgba(2,6,23,.06); }
 .icon-btn:active { transform: translateY(0); box-shadow: inset 0 1px 3px rgba(2,6,23,.08); }
+.icon-btn .fa-sun { color: #fbbf24; }
+.icon-btn .fa-moon { color: #94a3b8; }
+.icon-btn .fa-globe { color: #3b82f6; }
 
 .lang { position: relative; }
 .lang .menu { position:absolute; right:0; top:110%; background:#fff; border:1px solid #e5e7eb; border-radius:.5rem; box-shadow: 0 12px 24px rgba(2,6,23,.10); padding:.25rem; min-width:160px; z-index:60; }
 
-.btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease; display:inline-flex; align-items:center; gap:.35rem; text-decoration:none; }
+.btn.small { padding:.4rem .6rem; font-size:.9rem; border-radius:.45rem; border:1px solid transparent; transition: background-color .16s ease, color .16s ease, border-color .16s ease, transform .1s ease, box-shadow .16s ease; display:inline-flex; align-items:center; gap:.35rem; text-decoration:none; font-weight:600; }
 .btn.small i { font-size: 14px; }
 .btn.small.primary { background:#2563eb; color:#fff; }
 .btn.small.primary:hover { background:#1d4ed8; transform: translateY(-1px); }
 .btn.small.outline { background:#fff; color:#0f172a; border-color:#cbd5e1; }
 .btn.small.outline:hover { background:#f8fafc; }
+
+/* Admin button - make it stand out with core blue */
+.actions .btn.small[href="/admin"] {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.actions .btn.small[href="/admin"]:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  transform: translateY(-1px);
+}
 
 /* Profile */
 .profile { position: relative; display:flex; align-items:center; gap:.5rem; padding:.2rem .4rem; border-radius:.5rem; cursor:pointer; border:1px solid #e5e7eb; background:#fff; }
@@ -432,6 +449,9 @@ function logout() {
   border-color: #cbd5e1;
   color: #475569;
 }
+
+.mobile-theme-icon-btn .fa-sun { color: #fbbf24; }
+.mobile-theme-icon-btn .fa-moon { color: #94a3b8; }
 
 .mobile-lang-row {
   display: flex;

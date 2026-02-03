@@ -12,7 +12,7 @@ function prefersDark() {
 
 export const useThemeStore = defineStore('theme', {
     state: () => ({
-        mode: 'dark',
+        mode: 'light',
         initialized: false,
     }),
     actions: {
@@ -31,8 +31,8 @@ export const useThemeStore = defineStore('theme', {
             try {
                 saved = localStorage.getItem(THEME_KEY);
             } catch (_) { }
-            // Default to system preference if nothing saved
-            const mode = saved || (prefersDark() ? 'dark' : 'light');
+            // Default to light mode if nothing saved
+            const mode = saved || 'light';
             this.apply(mode);
             this.initialized = true;
         },
