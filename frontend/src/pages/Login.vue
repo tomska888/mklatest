@@ -86,23 +86,25 @@
     <!-- Reset password modal -->
     <div v-if="showReset" class="modal-wrap" @keydown.esc="closeReset">
       <div class="modal card" role="dialog" aria-modal="true">
-        <div class="modal-head">
-          <h3>Reset Password</h3>
-          <button class="icon-btn" @click="closeReset" aria-label="Close">
-            ✕
-          </button>
-        </div>
-        <p class="modal-sub">Enter your email address and we'll send you a link to reset your password</p>
-        <label class="label mt-sm">Email Address</label>
-        <div class="field with-icon">
-          <span class="icon">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-          </span>
-          <input class="input" type="email" v-model="resetEmail" placeholder="name@example.com" />
-        </div>
-        <div class="row gap mt">
-          <button class="btn" @click="closeReset">Cancel</button>
-          <button class="btn primary" @click="sendReset" :disabled="sendingReset">{{ sendingReset ? 'Sending...' : 'Send Reset Link' }}</button>
+        <div class="modal-body">
+          <div class="modal-head">
+            <h3>Reset Password</h3>
+            <button class="icon-btn" @click="closeReset" aria-label="Close">
+              ✕
+            </button>
+          </div>
+          <p class="modal-sub">Enter your email address receive email with password reset details</p>
+          <label class="label mt-sm">Email Address</label>
+          <div class="field with-icon">
+            <span class="icon">
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            </span>
+            <input class="input" type="email" v-model="resetEmail" placeholder="name@example.com" />
+          </div>
+          <div class="row gap mt">
+            <button class="btn" @click="closeReset">Cancel</button>
+            <button class="btn primary" @click="sendReset" :disabled="sendingReset">{{ sendingReset ? 'Sending...' : 'Send Reset Link' }}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -205,10 +207,19 @@ async function sendReset() {
 
 /* Modal */
 .modal-wrap { position:fixed; inset:0; display:grid; place-items:center; background: rgba(2,6,23,.45); z-index:50; padding:16px; }
-.modal { width:560px; max-width:100%; border-radius:14px; }
+.modal { width:560px; max-width:100%; border-radius:14px; background:#fff; }
+.modal-body { padding:28px 26px; }
 .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
-.modal-sub { color:#6b7280; margin-bottom:10px; padding: 20px}
-.icon-btn { background:#fff; border:1px solid #e5e7eb; border-radius:8px; width:34px; height:34px; display:grid; place-items:center; cursor:pointer; }
+.modal-head h3 { margin:0; font-size:20px; font-weight:700; color:#0b1220; }
+.modal-sub { color:#6b7280; margin-bottom:10px; }
+.icon-btn { background:#fff; border:1px solid #e5e7eb; border-radius:8px; width:34px; height:34px; display:grid; place-items:center; cursor:pointer; transition: all 0.2s; }
+.icon-btn:hover { background:#f9fafb; border-color:#d1d5db; }
+
+.btn { height:40px; padding:0 20px; border-radius:8px; font-weight:600; cursor:pointer; border:1px solid #e5e7eb; background:#fff; color:#374151; transition: all 0.2s; }
+.btn:hover:not(:disabled) { background:#f9fafb; border-color:#d1d5db; }
+.btn.primary { background:#2563eb; color:#fff; border-color:#2563eb; }
+.btn.primary:hover:not(:disabled) { background:#1d4ed8; }
+.btn:disabled { opacity:0.6; cursor:not-allowed; }
 
 /* Responsive */
 @media (max-width: 980px) {
